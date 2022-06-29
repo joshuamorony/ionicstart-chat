@@ -1,7 +1,9 @@
+import { navigateToHomePage } from '../support/utils';
+
 describe('My First Test', () => {
-  it('Visits the initial project page', () => {
-    cy.visit('/');
-    cy.contains('Welcome');
-    cy.contains('sandbox app is running!');
+  beforeEach(() => {
+    navigateToHomePage();
   });
+
+  it('', () => {});
 });

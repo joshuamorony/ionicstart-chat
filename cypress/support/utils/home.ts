@@ -1,1 +1,1 @@
-export const navigateToHomePage = () => {};
+export const navigateToHomePage = () => cy.visit('/');
