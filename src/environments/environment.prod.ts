@@ -1,11 +1,11 @@
 export const environment = {
   firebase: {
     projectId: 'joshmorony-yt-test',
-    appId: '1:643155649449:web:a2162b1dd0a13b0a1d1ab8',
-    storageBucket: 'joshmorony-yt-test.appspot.com',
-    apiKey: 'AIzaSyBuxLrGusl1lQK5PJS_i46Gm29ZQvDzA7k',
-    authDomain: 'joshmorony-yt-test.firebaseapp.com',
-    messagingSenderId: '643155649449',
+    apiKey: 'AIzaSyDP2nKGt_2IDh6_atm1H5O2OjF9pSXaMUI',
+    authDomain: 'ionicstart-chat.firebaseapp.com',
+    storageBucket: 'ionicstart-chat.appspot.com',
+    messagingSenderId: '299338348784',
+    appId: '1:299338348784:web:d33c30c0fb65859cd76a35',
   },
   production: true,
   useEmulators: false,
