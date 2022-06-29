@@ -7,5 +7,6 @@ export const environment = {
     authDomain: 'joshmorony-yt-test.firebaseapp.com',
     messagingSenderId: '643155649449',
   },
-  production: true
+  production: true,
+  useEmulators: false,
 };
