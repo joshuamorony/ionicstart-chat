@@ -1,7 +1,17 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
+import { Message } from '../../shared/interfaces/message';
 import { MessageListComponent } from './message-list.component';
+
+@Component({
+  selector: 'app-message-list',
+  template: ``,
+})
+export class MockMessageListComponent {
+  @Input() messages: Message[];
+}
 
 describe('MessageListComponent', () => {
   let component: MessageListComponent;

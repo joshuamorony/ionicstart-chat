@@ -12,7 +12,7 @@ import { Message } from '../../shared/interfaces/message';
   selector: 'app-message-list',
   template: `
     <ion-list>
-      <ion-item *ngFor="let message of messages">
+      <ion-item data-test="message" *ngFor="let message of messages">
         <ion-label>{{ message.content }}</ion-label>
       </ion-item>
     </ion-list>
