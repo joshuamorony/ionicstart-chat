@@ -1,11 +1,18 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { Message } from '../interfaces/message';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageService {
+  constructor(private firestore: Firestore) {}
+
   getMessages() {
-    return of({});
+    const messagesCollection = collection(this.firestore, 'messages');
+    return collectionData(messagesCollection, { idField: 'id' }) as Observable<
+      Message[]
+    >;
   }
 }
