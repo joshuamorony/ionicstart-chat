@@ -5,5 +5,10 @@ describe('My First Test', () => {
     navigateToHomePage();
   });
 
-  it('', () => {});
+  it('should display messages', () => {
+    cy.callFirestore('add', 'messages', { content: 'hi' });
+    // set test data
+    // grab list
+    // expect test data to be visible
+  });
 });
