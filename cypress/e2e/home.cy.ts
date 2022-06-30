@@ -1,14 +1,14 @@
-import { navigateToHomePage } from '../support/utils';
+import { getMessages, navigateToHomePage } from '../support/utils';
 
 describe('My First Test', () => {
   beforeEach(() => {
     navigateToHomePage();
+    cy.callFirestore('delete', 'messages');
   });
 
-  it('should display messages', () => {
-    cy.callFirestore('add', 'messages', { content: 'hi' });
-    // set test data
-    // grab list
-    // expect test data to be visible
+  it('should display messages from Firestore when they are added', () => {
+    getMessages().should('be.null');
+    cy.callFirestore('add', 'messages', { author: 'josh', content: 'hi' });
+    getMessages().children().first().should('contain.text', 'hi');
   });
 });
