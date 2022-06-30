@@ -3,10 +3,12 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
 
+jest.mock('@angular/fire/app');
+jest.mock('@angular/fire/auth');
+jest.mock('@angular/fire/firestore');
+
 describe('AppComponent', () => {
-
   beforeEach(waitForAsync(() => {
-
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -19,5 +21,4 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
   // TODO: add more tests!
-
 });
