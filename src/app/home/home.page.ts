@@ -4,41 +4,28 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 
 import { RouterModule } from '@angular/router';
+import { MessageListComponentModule } from './ui/message-list.component';
+import { MessageService } from '../shared/data-access/message.service';
 
 @Component({
   selector: 'app-home',
   template: `
-    <ion-header [translucent]="true">
+    <ion-header>
       <ion-toolbar>
-        <ion-title> Blank </ion-title>
+        <ion-title> Chat </ion-title>
       </ion-toolbar>
     </ion-header>
 
-    <ion-content [fullscreen]="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>
-          Start with Ionic
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://ionicframework.com/docs/components"
-            >UI Components</a
-          >
-        </p>
-      </div>
+    <ion-content>
+      <app-message-list
+        [messages]="messageService.getMessages() | async"
+      ></app-message-list>
     </ion-content>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage {
-  constructor() {}
+  constructor(protected messageService: MessageService) {}
 }
 
 @NgModule({
@@ -46,6 +33,7 @@ export class HomePage {
     CommonModule,
     FormsModule,
     IonicModule,
+    MessageListComponentModule,
     RouterModule.forChild([
       {
         path: '',

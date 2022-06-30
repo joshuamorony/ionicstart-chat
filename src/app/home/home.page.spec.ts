@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { MessageService } from '../shared/data-access/message.service';
 
 import { HomePage } from './home.page';
+import { MockMessageListComponent } from './ui/message-list.component.spec';
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -9,8 +11,16 @@ describe('HomePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomePage ],
-      imports: [IonicModule.forRoot()]
+      providers: [
+        {
+          provide: MessageService,
+          useValue: {
+            getMessages: jest.fn(),
+          },
+        },
+      ],
+      declarations: [HomePage, MockMessageListComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomePage);
