@@ -18,9 +18,9 @@ import { IonicModule } from '@ionic/angular';
         [formControl]="control"
         placeholder="type message..."
       ></ion-textarea>
-      <ion-buttons>
-        <ion-button>
-          <ion-icon></ion-icon>
+      <ion-buttons slot="primary">
+        <ion-button data-test="message-submit-button" (click)="send.emit(true)">
+          <ion-icon name="send" slot="icon-only"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
