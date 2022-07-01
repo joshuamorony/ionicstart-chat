@@ -1,6 +1,6 @@
 export const environment = {
   firebase: {
-    projectId: 'joshmorony-yt-test',
+    projectId: 'ionicstart-chat',
     apiKey: 'AIzaSyDP2nKGt_2IDh6_atm1H5O2OjF9pSXaMUI',
     authDomain: 'ionicstart-chat.firebaseapp.com',
     storageBucket: 'ionicstart-chat.appspot.com',
