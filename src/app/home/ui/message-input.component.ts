@@ -4,14 +4,18 @@ import {
   Input,
   NgModule,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-message-input',
   template: `
     <ion-toolbar>
-      <ion-textarea></ion-textarea>
+      <ion-textarea
+        data-test="message-input-bar"
+        [formControl]="control"
+        placeholder="type message..."
+      ></ion-textarea>
       <ion-buttons>
         <ion-button>
           <ion-icon></ion-icon>
@@ -28,6 +32,6 @@ export class MessageInputComponent {
 @NgModule({
   declarations: [MessageInputComponent],
   exports: [MessageInputComponent],
-  imports: [IonicModule],
+  imports: [IonicModule, ReactiveFormsModule],
 })
 export class MessageInputComponentModule {}
