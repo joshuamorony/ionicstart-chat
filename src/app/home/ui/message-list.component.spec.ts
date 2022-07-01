@@ -10,7 +10,7 @@ import { MessageListComponent } from './message-list.component';
   template: ``,
 })
 export class MockMessageListComponent {
-  @Input() messages: Message[];
+  @Input() messages!: Message[] | null;
 }
 
 describe('MessageListComponent', () => {

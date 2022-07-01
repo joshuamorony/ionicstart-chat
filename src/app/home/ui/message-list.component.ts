@@ -20,7 +20,7 @@ import { Message } from '../../shared/interfaces/message';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageListComponent {
-  @Input() messages: Message[];
+  @Input() messages!: Message[] | null;
 }
 
 @NgModule({
