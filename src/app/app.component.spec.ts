@@ -3,10 +3,6 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
 
-jest.mock('@angular/fire/app');
-jest.mock('@angular/fire/auth');
-jest.mock('@angular/fire/firestore');
-
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
