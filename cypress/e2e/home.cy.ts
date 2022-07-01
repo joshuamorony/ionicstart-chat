@@ -1,6 +1,11 @@
-import { getMessages, navigateToHomePage } from '../support/utils';
+import {
+  getInputBar,
+  getMessages,
+  getSubmitButton,
+  navigateToHomePage,
+} from '../support/utils';
 
-describe('My First Test', () => {
+describe('Home', () => {
   beforeEach(() => {
     navigateToHomePage();
     cy.callFirestore('delete', 'messages');
@@ -10,5 +15,11 @@ describe('My First Test', () => {
     getMessages().should('not.exist');
     cy.callFirestore('add', 'messages', { author: 'josh', content: 'hi' });
     getMessages().children().first().should('contain.text', 'hi');
+  });
+
+  it('should allow adding messages', () => {
+    getInputBar().type('hello');
+    getSubmitButton().click();
+    getMessages().children().first().should('contain.text', 'hello');
   });
 });
