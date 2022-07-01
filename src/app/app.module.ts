@@ -4,18 +4,18 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { NgModule } from '@angular/core';
-import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
-import {
-  connectFirestoreEmulator,
-  Firestore,
-  getFirestore,
-  initializeFirestore,
-  provideFirestore,
-} from '@angular/fire/firestore';
-import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth';
+import {
+  provideFirestore,
+  getFirestore,
+  Firestore,
+  initializeFirestore,
+  connectFirestoreEmulator,
+} from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [AppComponent],

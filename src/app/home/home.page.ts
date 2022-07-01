@@ -17,14 +17,14 @@ import { MessageService } from '../shared/data-access/message.service';
     </ion-header>
 
     <ion-content>
-      <app-message-list
-        [messages]="messageService.getMessages() | async"
-      ></app-message-list>
+      <app-message-list [messages]="messages$ | async"></app-message-list>
     </ion-content>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage {
+  protected messages$ = this.messageService.getMessages();
+
   constructor(protected messageService: MessageService) {}
 }
 
