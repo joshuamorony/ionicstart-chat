@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { subscribeSpyTo } from '@hirez_io/observer-spy';
 import { IonicModule } from '@ionic/angular';
 import { MessageInputComponent } from './message-input.component';
 
@@ -42,6 +43,19 @@ describe('MessageInputComponent', () => {
       );
 
       expect(input.componentInstance.value).toEqual(testValue);
+    });
+  });
+
+  describe('@Output() send', () => {
+    it('should emit when submit button is clicked', () => {
+      const observerSpy = subscribeSpyTo(component.send);
+      const submitButton = fixture.debugElement.query(
+        By.css('[data-test="message-submit-button"]')
+      );
+
+      submitButton.nativeElement.click();
+
+      expect(observerSpy.getLastValue()).toEqual(true);
     });
   });
 });

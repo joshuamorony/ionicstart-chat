@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   NgModule,
+  Output,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -27,6 +29,7 @@ import { IonicModule } from '@ionic/angular';
 })
 export class MessageInputComponent {
   @Input() control!: FormControl;
+  @Output() send = new EventEmitter<boolean>();
 }
 
 @NgModule({
