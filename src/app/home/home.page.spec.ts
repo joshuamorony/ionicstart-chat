@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { MessageService } from '../shared/data-access/message.service';
 
@@ -16,6 +17,7 @@ describe('HomePage', () => {
           provide: MessageService,
           useValue: {
             getMessages: jest.fn(),
+            addMessage: jest.fn(),
           },
         },
       ],

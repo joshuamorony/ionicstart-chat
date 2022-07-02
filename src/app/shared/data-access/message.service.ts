@@ -15,4 +15,6 @@ export class MessageService {
       Message[]
     >;
   }
+
+  addMessage(message: string) {}
 }

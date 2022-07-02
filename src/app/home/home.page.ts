@@ -1,7 +1,7 @@
 import { NgModule, ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
 
 import { RouterModule } from '@angular/router';
 import { MessageListComponentModule } from './ui/message-list.component';
@@ -24,6 +24,7 @@ import { MessageService } from '../shared/data-access/message.service';
 })
 export class HomePage {
   protected messages$ = this.messageService.getMessages();
+  protected messageControl = new FormControl('');
 
   constructor(protected messageService: MessageService) {}
 }

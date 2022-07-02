@@ -15,11 +15,11 @@ import { IonicModule } from '@ionic/angular';
     <ion-toolbar>
       <ion-textarea
         data-test="message-input-bar"
-        [formControl]="control"
+        [formControl]="messageControl"
         placeholder="type message..."
       ></ion-textarea>
       <ion-buttons slot="primary">
-        <ion-button data-test="message-submit-button" (click)="send.emit(true)">
+        <ion-button data-test="message-submit-button" (click)="sendMessage()">
           <ion-icon name="send" slot="icon-only"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -28,8 +28,16 @@ import { IonicModule } from '@ionic/angular';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageInputComponent {
-  @Input() control!: FormControl;
-  @Output() send = new EventEmitter<boolean>();
+  @Output() send = new EventEmitter<string>();
+
+  messageControl = new FormControl('');
+
+  sendMessage() {
+    if (this.messageControl.value) {
+      this.send.emit(this.messageControl.value);
+      this.messageControl.reset();
+    }
+  }
 }
 
 @NgModule({
