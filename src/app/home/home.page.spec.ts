@@ -33,4 +33,8 @@ describe('HomePage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('message-input send event emits', () => {
+    it('should pass value to the addMessage() method of message service', () => {});
+  });
 });
