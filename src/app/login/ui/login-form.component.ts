@@ -1,6 +1,13 @@
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  NgModule,
+  Output,
+} from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { Credentials } from '../../shared/interfaces/credentials';
 
 @Component({
   selector: 'app-login-form',
@@ -19,7 +26,13 @@ import { IonicModule } from '@ionic/angular';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginFormComponent {}
+export class LoginFormComponent {
+  @Output() login = new EventEmitter<Credentials>();
+
+  loginForm = this.fb.group({});
+
+  constructor(private fb: FormBuilder) {}
+}
 
 @NgModule({
   declarations: [LoginFormComponent],
