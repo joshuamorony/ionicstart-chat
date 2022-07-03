@@ -6,6 +6,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MessageListComponentModule } from './ui/message-list.component';
 import { MessageService } from '../shared/data-access/message.service';
+import { MessageInputComponentModule } from './ui/message-input.component';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,12 @@ import { MessageService } from '../shared/data-access/message.service';
     <ion-content>
       <app-message-list [messages]="messages$ | async"></app-message-list>
     </ion-content>
+
+    <ion-footer>
+      <app-message-input
+        (send)="messageService.addMessage($event)"
+      ></app-message-input>
+    </ion-footer>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -35,6 +42,7 @@ export class HomePage {
     FormsModule,
     IonicModule,
     MessageListComponentModule,
+    MessageInputComponentModule,
     RouterModule.forChild([
       {
         path: '',

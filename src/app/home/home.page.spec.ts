@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { MessageService } from '../shared/data-access/message.service';
 
 import { HomePage } from './home.page';
+import { MockMessageInputComponent } from './ui/message-input.component.spec';
 import { MockMessageListComponent } from './ui/message-list.component.spec';
 
 describe('HomePage', () => {
@@ -21,7 +22,11 @@ describe('HomePage', () => {
           },
         },
       ],
-      declarations: [HomePage, MockMessageListComponent],
+      declarations: [
+        HomePage,
+        MockMessageListComponent,
+        MockMessageInputComponent,
+      ],
       imports: [IonicModule.forRoot()],
     }).compileComponents();
 
@@ -35,6 +40,18 @@ describe('HomePage', () => {
   });
 
   describe('message-input send event emits', () => {
-    it('should pass value to the addMessage() method of message service', () => {});
+    it('should pass value to the addMessage() method of message service', () => {
+      const messageService = fixture.debugElement.injector.get(MessageService);
+
+      const messageInput = fixture.debugElement.query(
+        By.css('app-message-input')
+      );
+
+      const testMessage = 'test';
+
+      messageInput.triggerEventHandler('send', testMessage);
+
+      expect(messageService.addMessage).toHaveBeenCalledWith(testMessage);
+    });
   });
 });
