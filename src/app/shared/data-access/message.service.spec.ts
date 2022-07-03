@@ -51,4 +51,32 @@ describe('MessageService', () => {
       expect(observerSpy.getLastValue()).toEqual(mockDocumentData);
     });
   });
+
+  describe('addMessage()', () => {
+    it('should create a new document in the messages collection using the supplied message', () => {
+      const mockCollectionReference = jest.fn();
+
+      const testMessage = {
+        author: 'josh',
+        content: 'test',
+      };
+
+      jest
+        .spyOn(AngularFireFirestore, 'collection')
+        .mockReturnValue(mockCollectionReference as any);
+
+      jest.spyOn(AngularFireFirestore, 'addDoc');
+
+      service.addMessage(testMessage.content);
+
+      expect(AngularFireFirestore.collection).toHaveBeenCalledWith(
+        {},
+        'messages'
+      );
+      expect(AngularFireFirestore.addDoc).toHaveBeenCalledWith(
+        mockCollectionReference,
+        testMessage
+      );
+    });
+  });
 });

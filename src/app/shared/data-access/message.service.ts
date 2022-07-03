@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import {
+  addDoc,
+  collection,
+  collectionData,
+  Firestore,
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Message } from '../interfaces/message';
 
@@ -16,5 +21,13 @@ export class MessageService {
     >;
   }
 
-  addMessage(message: string) {}
+  addMessage(message: string) {
+    const newMessage: Message = {
+      author: 'josh',
+      content: message,
+    };
+
+    const messagesCollection = collection(this.firestore, 'messages');
+    addDoc(messagesCollection, newMessage);
+  }
 }
