@@ -42,7 +42,7 @@ describe('CanActivateLogin', () => {
     let observerSpy: SubscriberSpy<boolean>;
 
     beforeEach(() => {
-      authService.user$ = of({});
+      authService.user$ = of({} as any);
       observerSpy = subscribeSpyTo(guard.canActivate());
     });
 
