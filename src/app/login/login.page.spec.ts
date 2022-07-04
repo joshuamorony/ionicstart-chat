@@ -112,7 +112,11 @@ describe('LoginPage', () => {
 
       expect(navCtrl.navigateForward).not.toHaveBeenCalled();
 
-      expect(false).toBe(true);
+      const errorMessage = fixture.debugElement.query(
+        By.css('[data-test="login-error-message"]')
+      );
+
+      expect(errorMessage).toBeTruthy();
     });
   });
 });
