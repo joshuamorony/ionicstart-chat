@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { AuthService } from '../shared/data-access/auth.service';
 import { CreateModalComponent } from './create-modal.component';
+import { MockCreateFormComponent } from './ui/create-form.component.spec';
 
 describe('CreateModalComponent', () => {
   let component: CreateModalComponent;
@@ -10,7 +11,7 @@ describe('CreateModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CreateModalComponent],
+      declarations: [CreateModalComponent, MockCreateFormComponent],
       imports: [IonicModule.forRoot()],
       providers: [
         {
