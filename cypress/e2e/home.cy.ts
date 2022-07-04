@@ -7,6 +7,7 @@ import {
 
 describe('Home', () => {
   beforeEach(() => {
+    cy.login();
     navigateToHomePage();
     cy.callFirestore('delete', 'messages');
   });

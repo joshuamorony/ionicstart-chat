@@ -14,8 +14,10 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "types": ["jest"],
-    "strict": true
+    "strict": true,
+    "allowSyntheticDefaultImports": true
   },
+  "include": ["src/**/*"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

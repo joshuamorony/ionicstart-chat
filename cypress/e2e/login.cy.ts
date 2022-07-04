@@ -13,6 +13,7 @@ import {
 
 describe('Login', () => {
   beforeEach(() => {
+    cy.logout();
     navigateToLoginPage();
   });
 

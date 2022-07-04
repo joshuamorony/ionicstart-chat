@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRouteSnapshot } from '@angular/router';
 import { SubscriberSpy, subscribeSpyTo } from '@hirez_io/observer-spy';
 import { NavController } from '@ionic/angular';
 import { of } from 'rxjs';
