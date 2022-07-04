@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../shared/data-access/auth.service';
 import { Credentials } from '../shared/interfaces/credentials';
@@ -8,7 +8,18 @@ import { CreateFormComponentModule } from './ui/create-form.component';
 @Component({
   selector: 'app-create-modal',
   template: `
-    <ion-header></ion-header>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button
+            data-test="modal-close-button"
+            (click)="modalCtrl.dismiss()"
+          >
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
     <ion-content>
       <app-create-form (create)="createAccount($event)"></app-create-form>
       <ion-badge
@@ -26,7 +37,10 @@ export class CreateModalComponent {
     'pending' | 'creating' | 'success' | 'error'
   >('pending');
 
-  constructor(protected authService: AuthService) {}
+  constructor(
+    protected authService: AuthService,
+    protected modalCtrl: ModalController
+  ) {}
 
   async createAccount(credentials: Credentials) {
     this.createStatus$.next('creating');

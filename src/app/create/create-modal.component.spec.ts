@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { AuthService } from '../shared/data-access/auth.service';
 import { CreateModalComponent } from './create-modal.component';
 import { MockCreateFormComponent } from './ui/create-form.component.spec';
@@ -20,6 +20,12 @@ describe('CreateModalComponent', () => {
       declarations: [CreateModalComponent, MockCreateFormComponent],
       imports: [IonicModule.forRoot()],
       providers: [
+        {
+          provide: ModalController,
+          useValue: {
+            dismiss: jest.fn(),
+          },
+        },
         {
           provide: AuthService,
           useValue: {
@@ -45,9 +51,19 @@ describe('CreateModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should dismiss when close button is clicked', () => {});
+  it('should dismiss when close button is clicked', () => {
+    const modalCtrl = fixture.debugElement.injector.get(ModalController);
 
-  it('should dismiss after successful account creation', () => {});
+    const closeButton = fixture.debugElement.query(
+      By.css('[data-test="modal-close-button"]')
+    );
+
+    closeButton.nativeElement.click();
+
+    expect(modalCtrl.dismiss).toHaveBeenCalled();
+  });
+
+  it('should dismiss and navigate to home page after successful account creation', () => {});
 
   it('should display an error if account creation fails', async () => {
     const authService = fixture.debugElement.injector.get(AuthService);
