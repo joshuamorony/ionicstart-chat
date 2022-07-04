@@ -63,7 +63,17 @@ describe('CreateModalComponent', () => {
     expect(modalCtrl.dismiss).toHaveBeenCalled();
   });
 
-  it('should dismiss and navigate to home page after successful account creation', () => {});
+  it('should dismiss and navigate to home page after successful account creation', async () => {
+    const authService = fixture.debugElement.injector.get(AuthService);
+    const modalCtrl = fixture.debugElement.injector.get(ModalController);
+    const navCtrl = fixture.debugElement.injector.get(NavController);
+    jest.spyOn(authService, 'createAccount').mockResolvedValue({} as any);
+
+    await component.createAccount(testCredentials);
+
+    expect(modalCtrl.dismiss).toHaveBeenCalled();
+    expect(navCtrl.navigateForward).toHaveBeenCalledWith('/home');
+  });
 
   it('should display an error if account creation fails', async () => {
     const authService = fixture.debugElement.injector.get(AuthService);

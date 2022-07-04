@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../shared/data-access/auth.service';
 import { Credentials } from '../shared/interfaces/credentials';
@@ -39,7 +39,8 @@ export class CreateModalComponent {
 
   constructor(
     protected authService: AuthService,
-    protected modalCtrl: ModalController
+    protected modalCtrl: ModalController,
+    private navCtrl: NavController
   ) {}
 
   async createAccount(credentials: Credentials) {
@@ -48,6 +49,8 @@ export class CreateModalComponent {
     try {
       await this.authService.createAccount(credentials);
       this.createStatus$.next('success');
+      this.modalCtrl.dismiss();
+      this.navCtrl.navigateForward('/home');
     } catch (err) {
       this.createStatus$.next('error');
     }
