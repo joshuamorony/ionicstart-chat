@@ -4,12 +4,14 @@ import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
+  let fireAuth: AngularFireAuth.Auth;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [AngularFireAuth.Auth],
     });
     service = TestBed.inject(AuthService);
+    fireAuth = TestBed.inject(AngularFireAuth.Auth);
   });
 
   it('should be created', () => {
@@ -18,11 +20,8 @@ describe('AuthService', () => {
 
   describe('login()', () => {
     it('should return result of signInWithEmailAndPassword()', async () => {
-      const mockAuth = jest.fn();
-
       const testResult = 'test';
 
-      jest.spyOn(AngularFireAuth, 'getAuth').mockReturnValue(mockAuth as any);
       jest
         .spyOn(AngularFireAuth, 'signInWithEmailAndPassword')
         .mockResolvedValue(testResult as any);
@@ -35,7 +34,7 @@ describe('AuthService', () => {
       const result = await service.login(testCredentials);
 
       expect(AngularFireAuth.signInWithEmailAndPassword).toHaveBeenCalledWith(
-        mockAuth,
+        fireAuth,
         testCredentials.email,
         testCredentials.password
       );
