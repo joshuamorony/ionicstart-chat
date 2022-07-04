@@ -112,6 +112,8 @@ describe('LoginPage', () => {
 
       expect(navCtrl.navigateForward).not.toHaveBeenCalled();
 
+      fixture.detectChanges();
+
       const errorMessage = fixture.debugElement.query(
         By.css('[data-test="login-error-message"]')
       );

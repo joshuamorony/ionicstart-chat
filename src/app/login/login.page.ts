@@ -12,6 +12,12 @@ import { LoginFormComponentModule } from './ui/login-form.component';
   template: `
     <ion-content>
       <app-login-form (login)="login($event)"></app-login-form>
+      <ion-badge
+        data-test="login-error-message"
+        *ngIf="(loginStatus$ | async) === 'error'"
+      >
+        Oops! Could not log you in with those details.
+      </ion-badge>
     </ion-content>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
