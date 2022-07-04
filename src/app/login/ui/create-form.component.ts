@@ -8,6 +8,7 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Credentials } from '../../shared/interfaces/credentials';
+import { passwordMatchesValidator } from '../utils/password-matches';
 
 @Component({
   selector: 'app-create-form',
@@ -47,17 +48,22 @@ import { Credentials } from '../../shared/interfaces/credentials';
 export class CreateFormComponent {
   @Output() create = new EventEmitter<Credentials>();
 
-  createForm = this.fb.group({
-    email: this.fb.control('', {
-      nonNullable: true,
-      validators: [Validators.email],
-    }),
-    password: this.fb.control('', {
-      nonNullable: true,
-      validators: [Validators.minLength(8)],
-    }),
-    confirmPassword: this.fb.control(''),
-  });
+  createForm = this.fb.group(
+    {
+      email: this.fb.control('', {
+        nonNullable: true,
+        validators: [Validators.email],
+      }),
+      password: this.fb.control('', {
+        nonNullable: true,
+        validators: [Validators.minLength(8)],
+      }),
+      confirmPassword: this.fb.control(''),
+    },
+    {
+      validators: [passwordMatchesValidator],
+    }
+  );
 
   constructor(private fb: FormBuilder) {}
 

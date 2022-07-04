@@ -8,9 +8,9 @@ describe('passwordMatches validator', () => {
       confirmPassword: new FormControl('abc123'),
     });
 
-    const result = passwordMatchesValidator(testControl);
+    const errors = passwordMatchesValidator(testControl);
 
-    expect(result).toBeTruthy();
+    expect(errors).toBe(null);
   });
 
   it('should NOT pass if the password and confirmPassword fields match', () => {
@@ -19,8 +19,8 @@ describe('passwordMatches validator', () => {
       confirmPassword: new FormControl('xxxxxx'),
     });
 
-    const result = passwordMatchesValidator(testControl);
+    const errors = passwordMatchesValidator(testControl);
 
-    expect(result).toBeFalsy();
+    expect(errors).toBeTruthy();
   });
 });
