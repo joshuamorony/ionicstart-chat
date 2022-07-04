@@ -15,4 +15,6 @@ export class AuthService {
       credentials.password
     );
   }
+
+  createAccount(credentials: Credentials) {}
 }
