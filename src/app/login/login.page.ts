@@ -18,8 +18,8 @@ import { LoginFormComponentModule } from './ui/login-form.component';
 export class LoginPage {
   constructor(private authService: AuthService) {}
 
-  login(credentials: Credentials) {
-    this.authService.login(credentials);
+  async login(credentials: Credentials) {
+    await this.authService.login(credentials);
   }
 }
 
