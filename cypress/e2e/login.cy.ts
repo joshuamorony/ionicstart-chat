@@ -17,10 +17,12 @@ describe('Login', () => {
   });
 
   it('should be able to create new account', () => {
+    const unique = Date.now().toString();
+
     goToCreateButton().click();
-    getCreateEmailField().type('test@test.com');
-    getCreatePasswordField().type('abc123');
-    getCreateConfirmField().type('abc123');
+    getCreateEmailField().type(`${unique}@test.com`);
+    getCreatePasswordField().type('abcd1234');
+    getCreateConfirmField().type('abcd1234');
     getCreateButton().click();
     getInputBar().should('be.visible');
   });

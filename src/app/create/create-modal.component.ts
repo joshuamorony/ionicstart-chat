@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
@@ -30,6 +31,13 @@ import { CreateFormComponentModule } from './ui/create-form.component';
       </ion-badge>
     </ion-content>
   `,
+  styles: [
+    `
+      :host {
+        height: 100%;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateModalComponent {
@@ -60,6 +68,6 @@ export class CreateModalComponent {
 @NgModule({
   declarations: [CreateModalComponent],
   exports: [CreateModalComponent],
-  imports: [IonicModule, CreateFormComponentModule],
+  imports: [IonicModule, CommonModule, CreateFormComponentModule],
 })
 export class CreateModalComponentModule {}

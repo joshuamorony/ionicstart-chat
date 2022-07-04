@@ -33,16 +33,23 @@ import { passwordMatchesValidator } from '../utils/password-matches';
       <ion-item>
         <ion-label>confirm password</ion-label>
         <ion-input
-          formControlName="password"
+          formControlName="confirmPassword"
           data-test="create-confirm-field"
           type="password"
         ></ion-input>
       </ion-item>
-      <ion-button data-test="login-button" type="submit">
+      <ion-button data-test="create-button" type="submit">
         Create Account
       </ion-button>
     </form>
   `,
+  styles: [
+    `
+      :host {
+        height: 100%;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateFormComponent {
