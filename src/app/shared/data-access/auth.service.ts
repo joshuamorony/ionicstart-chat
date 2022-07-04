@@ -4,12 +4,15 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from '@angular/fire/auth';
+import { of } from 'rxjs';
 import { Credentials } from '../interfaces/credentials';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  user$ = of();
+
   constructor(private auth: Auth) {}
 
   login(credentials: Credentials) {
