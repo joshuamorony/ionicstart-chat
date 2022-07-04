@@ -42,4 +42,31 @@ describe('AuthService', () => {
       expect(result).toEqual(testResult);
     });
   });
+
+  describe('createAccount()', () => {
+    it('should return result of createUserWithEmailAndPassword()', async () => {
+      const testResult = 'test';
+
+      jest
+        .spyOn(AngularFireAuth, 'createUserWithEmailAndPassword')
+        .mockResolvedValue(testResult as any);
+
+      const testCredentials = {
+        email: 'test@test.com',
+        password: 'abc123',
+      };
+
+      const result = await service.createAccount(testCredentials);
+
+      expect(
+        AngularFireAuth.createUserWithEmailAndPassword
+      ).toHaveBeenCalledWith(
+        fireAuth,
+        testCredentials.email,
+        testCredentials.password
+      );
+
+      expect(result).toEqual(testResult);
+    });
+  });
 });
