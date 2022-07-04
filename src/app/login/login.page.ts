@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../shared/data-access/auth.service';
 import { Credentials } from '../shared/interfaces/credentials';
 import { LoginFormComponentModule } from './ui/login-form.component';
@@ -16,6 +17,10 @@ import { LoginFormComponentModule } from './ui/login-form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPage {
+  loginStatus$ = new BehaviorSubject<
+    'pending' | 'authenticating' | 'success' | 'error'
+  >('pending');
+
   constructor(
     private authService: AuthService,
     private navCtrl: NavController
