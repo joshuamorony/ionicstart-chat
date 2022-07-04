@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { AuthService } from '../shared/data-access/auth.service';
 import { Credentials } from '../shared/interfaces/credentials';
 import { LoginFormComponentModule } from './ui/login-form.component';
@@ -16,10 +16,16 @@ import { LoginFormComponentModule } from './ui/login-form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPage {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private navCtrl: NavController
+  ) {}
 
   async login(credentials: Credentials) {
-    await this.authService.login(credentials);
+    try {
+      await this.authService.login(credentials);
+      this.navCtrl.navigateForward('/home');
+    } catch (err) {}
   }
 }
 
