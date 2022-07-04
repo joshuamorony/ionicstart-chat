@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, IonRouterOutlet, NavController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
+import { CreateModalComponentModule } from '../create/create-modal.component';
 import { AuthService } from '../shared/data-access/auth.service';
 import { Credentials } from '../shared/interfaces/credentials';
 import { LoginFormComponentModule } from './ui/login-form.component';
@@ -18,6 +19,22 @@ import { LoginFormComponentModule } from './ui/login-form.component';
       >
         Oops! Could not log you in with those details.
       </ion-badge>
+      <ion-button
+        data-test="open-create-button"
+        (click)="createModalIsOpen$.next(true)"
+      >
+        Create Account
+      </ion-button>
+      <ion-modal
+        [isOpen]="createModalIsOpen$ | async"
+        [presentingElement]="routerOutlet.nativeEl"
+        [canDismiss]="true"
+        (ionModalDidDismiss)="createModalIsOpen$.next(false)"
+      >
+        <ng-template>
+          <app-create-modal></app-create-modal>
+        </ng-template>
+      </ion-modal>
     </ion-content>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,9 +44,12 @@ export class LoginPage {
     'pending' | 'authenticating' | 'success' | 'error'
   >('pending');
 
+  createModalIsOpen$ = new BehaviorSubject(false);
+
   constructor(
     private authService: AuthService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    protected routerOutlet: IonRouterOutlet
   ) {}
 
   async login(credentials: Credentials) {
@@ -53,6 +73,7 @@ export class LoginPage {
     CommonModule,
     RouterModule.forChild([{ path: '', component: LoginPage }]),
     LoginFormComponentModule,
+    CreateModalComponentModule,
   ],
 })
 export class LoginPageModule {}
