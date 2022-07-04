@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
 import { IonicModule } from '@ionic/angular';
@@ -12,7 +12,7 @@ describe('LoginFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LoginFormComponent],
-      imports: [IonicModule.forRoot()],
+      imports: [IonicModule.forRoot(), ReactiveFormsModule],
       providers: [FormBuilder],
     }).compileComponents();
 
@@ -27,20 +27,19 @@ describe('LoginFormComponent', () => {
   });
 
   describe('@Output() login', () => {
-    it('should emit with the supplied username and password when login button clicked', () => {
+    it('should emit with the supplied username and password when form is submitted', () => {
       const observerSpy = subscribeSpyTo(component.login);
 
       const testEmail = 'test@test.com';
       const testPassword = 'abc123';
 
-      component.loginForm.get('email')?.setValue(testEmail);
-      component.loginForm.get('password')?.setValue(testPassword);
+      component.loginForm.setValue({
+        email: testEmail,
+        password: testPassword,
+      });
 
-      const loginButton = fixture.debugElement.query(
-        By.css('[data-test="login-button"]')
-      );
-
-      loginButton.nativeElement.click();
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('ngSubmit', null);
 
       expect(observerSpy.getLastValue()).toEqual({
         email: testEmail,

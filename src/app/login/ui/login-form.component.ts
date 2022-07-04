@@ -12,14 +12,22 @@ import { Credentials } from '../../shared/interfaces/credentials';
 @Component({
   selector: 'app-login-form',
   template: `
-    <form>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <ion-item>
         <ion-label>email</ion-label>
-        <ion-input data-test="login-email-field" type="email"></ion-input>
+        <ion-input
+          formControlName="email"
+          data-test="login-email-field"
+          type="email"
+        ></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>password</ion-label>
-        <ion-input data-test="login-password-field" type="password"></ion-input>
+        <ion-input
+          formControlName="password"
+          data-test="login-password-field"
+          type="password"
+        ></ion-input>
       </ion-item>
       <ion-button data-test="login-button" type="submit">Login</ion-button>
     </form>
@@ -29,9 +37,16 @@ import { Credentials } from '../../shared/interfaces/credentials';
 export class LoginFormComponent {
   @Output() login = new EventEmitter<Credentials>();
 
-  loginForm = this.fb.group({});
+  loginForm = this.fb.group({
+    email: this.fb.control('', { nonNullable: true }),
+    password: this.fb.control('', { nonNullable: true }),
+  });
 
   constructor(private fb: FormBuilder) {}
+
+  protected onSubmit() {
+    this.login.emit(this.loginForm.value as Credentials);
+  }
 }
 
 @NgModule({
