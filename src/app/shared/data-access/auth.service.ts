@@ -5,5 +5,5 @@ import { Credentials } from '../interfaces/credentials';
   providedIn: 'root',
 })
 export class AuthService {
-  login(credentials: Credentials) {}
+  async login(credentials: Credentials) {}
 }
