@@ -27,10 +27,15 @@ export class LoginPage {
   ) {}
 
   async login(credentials: Credentials) {
+    this.loginStatus$.next('authenticating');
+
     try {
       await this.authService.login(credentials);
+      this.loginStatus$.next('success');
       this.navCtrl.navigateForward('/home');
-    } catch (err) {}
+    } catch (err) {
+      this.loginStatus$.next('error');
+    }
   }
 }
 
