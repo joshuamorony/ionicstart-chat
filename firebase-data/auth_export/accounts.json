@@ -1,0 +1,28 @@
+{
+  "kind": "identitytoolkit#DownloadAccountResponse",
+  "users": [
+    {
+      "localId": "DsJ4LulOy3dr3b2xh0LJHKwIVqtZ",
+      "createdAt": "1656904174803",
+      "lastLoginAt": "1656904174803",
+      "displayName": "",
+      "photoUrl": "",
+      "emailVerified": true,
+      "email": "existing@existing.com",
+      "salt": "fakeSaltPBNGlJPie1B3RkKPotnN",
+      "passwordHash": "fakeHash:salt=fakeSaltPBNGlJPie1B3RkKPotnN:password=abc123",
+      "passwordUpdatedAt": 1656904174803,
+      "validSince": "1656904174",
+      "providerUserInfo": [
+        {
+          "providerId": "password",
+          "email": "existing@existing.com",
+          "federatedId": "existing@existing.com",
+          "rawId": "existing@existing.com",
+          "displayName": "",
+          "photoUrl": ""
+        }
+      ]
+    }
+  ]
+}

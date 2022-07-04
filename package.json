@@ -5,12 +5,12 @@
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
-    "start": "firebase emulators:exec --project=demo-project --ui 'ionic serve'",
+    "start": "firebase emulators:exec --project=demo-project --ui --import=./firebase-data 'ionic serve'",
     "build": "ng build",
     "test": "ng test --watch-all",
     "test:rules": "firebase emulators:exec 'jest test --config=firebase.jest.config.js --detectOpenHandles --forceExit'",
     "lint": "ng lint",
-    "e2e": "cross-env FIREBASE_AUTH_EMULATOR_HOST=9099 FIRESTORE_EMULATOR_HOST=8080 firebase emulators:exec --project=demo-project --ui 'ng e2e'",
+    "e2e": "cross-env FIREBASE_AUTH_EMULATOR_HOST=9099 FIRESTORE_EMULATOR_HOST=8080 firebase emulators:exec --project=demo-project --ui --import=./firebase-data 'ng e2e'",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
