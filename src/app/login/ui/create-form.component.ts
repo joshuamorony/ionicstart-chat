@@ -5,7 +5,7 @@ import {
   NgModule,
   Output,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Credentials } from '../../shared/interfaces/credentials';
 
@@ -48,14 +48,24 @@ export class CreateFormComponent {
   @Output() create = new EventEmitter<Credentials>();
 
   createForm = this.fb.group({
-    email: this.fb.control('', { nonNullable: true }),
-    password: this.fb.control('', { nonNullable: true }),
+    email: this.fb.control('', {
+      nonNullable: true,
+      validators: [Validators.email],
+    }),
+    password: this.fb.control('', {
+      nonNullable: true,
+      validators: [Validators.minLength(8)],
+    }),
     confirmPassword: this.fb.control(''),
   });
 
   constructor(private fb: FormBuilder) {}
 
   protected onSubmit() {
+    if (!this.createForm.valid) {
+      return;
+    }
+
     const { confirmPassword, ...credentials } = this.createForm.value;
     this.create.emit(credentials as Credentials);
   }

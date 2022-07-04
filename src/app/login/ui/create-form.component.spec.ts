@@ -40,7 +40,7 @@ describe('CreateFormComponent', () => {
       const observerSpy = subscribeSpyTo(component.create);
 
       const testEmail = 'test@test.com';
-      const testPassword = 'abc123';
+      const testPassword = 'abcd1234';
 
       component.createForm.setValue({
         email: testEmail,
@@ -57,10 +57,58 @@ describe('CreateFormComponent', () => {
       });
     });
 
-    it('should not emit if the email is invalid', () => {});
+    it('should not emit if the email is invalid', () => {
+      const observerSpy = subscribeSpyTo(component.create);
 
-    it('should not emit if the password is shorter than 8 characters', () => {});
+      const testEmail = 'test';
+      const testPassword = 'abcd1234';
 
-    it('should not emit if the confirmPassword value does not match the password value', () => {});
+      component.createForm.setValue({
+        email: testEmail,
+        password: testPassword,
+        confirmPassword: testPassword,
+      });
+
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('ngSubmit', null);
+
+      expect(observerSpy.getLastValue()).toBeUndefined();
+    });
+
+    it('should not emit if the password is shorter than 8 characters', () => {
+      const observerSpy = subscribeSpyTo(component.create);
+
+      const testEmail = 'test@test.com';
+      const testPassword = 'abc';
+
+      component.createForm.setValue({
+        email: testEmail,
+        password: testPassword,
+        confirmPassword: testPassword,
+      });
+
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('ngSubmit', null);
+
+      expect(observerSpy.getLastValue()).toBeUndefined();
+    });
+
+    it('should not emit if the confirmPassword value does not match the password value', () => {
+      const observerSpy = subscribeSpyTo(component.create);
+
+      const testEmail = 'test@test.com';
+      const testPassword = 'abcd1234';
+
+      component.createForm.setValue({
+        email: testEmail,
+        password: testPassword,
+        confirmPassword: 'test',
+      });
+
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('ngSubmit', null);
+
+      expect(observerSpy.getLastValue()).toBeUndefined();
+    });
   });
 });
