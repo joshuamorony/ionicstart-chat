@@ -22,4 +22,6 @@ describe('LoginPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should pass credentials to the login() method of the auth service when login-form emits', () => {});
 });
