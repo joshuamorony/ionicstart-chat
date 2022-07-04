@@ -11,6 +11,12 @@ import { CreateFormComponentModule } from './ui/create-form.component';
     <ion-header></ion-header>
     <ion-content>
       <app-create-form (create)="createAccount($event)"></app-create-form>
+      <ion-badge
+        data-test="create-error-message"
+        *ngIf="(createStatus$ | async) === 'error'"
+      >
+        Oops! Could not create account with those details.
+      </ion-badge>
     </ion-content>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

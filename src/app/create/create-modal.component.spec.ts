@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { AuthService } from '../shared/data-access/auth.service';
 import { CreateModalComponent } from './create-modal.component';
 import { MockCreateFormComponent } from './ui/create-form.component.spec';
@@ -26,6 +26,12 @@ describe('CreateModalComponent', () => {
             createAccount: jest.fn(),
           },
         },
+        {
+          provide: NavController,
+          useValue: {
+            navigateForward: jest.fn(),
+          },
+        },
       ],
     }).compileComponents();
 
@@ -43,7 +49,23 @@ describe('CreateModalComponent', () => {
 
   it('should dismiss after successful account creation', () => {});
 
-  it('should display an error if account creation fails', () => {});
+  it('should display an error if account creation fails', async () => {
+    const authService = fixture.debugElement.injector.get(AuthService);
+    const navCtrl = fixture.debugElement.injector.get(NavController);
+    jest.spyOn(authService, 'createAccount').mockRejectedValue({} as any);
+
+    await component.createAccount(testCredentials);
+
+    expect(navCtrl.navigateForward).not.toHaveBeenCalled();
+
+    fixture.detectChanges();
+
+    const errorMessage = fixture.debugElement.query(
+      By.css('[data-test="create-error-message"]')
+    );
+
+    expect(errorMessage).toBeTruthy();
+  });
 
   describe('createStatus$', () => {
     it('should be pending initially', () => {
