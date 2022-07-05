@@ -26,10 +26,10 @@ describe('MessageService', () => {
   describe('getMessages()', () => {
     it('should return a stream of messages from the messages collection with ids', () => {
       const mockCollectionRef = jest.fn();
-      const mockDocumentData = jest.fn();
+      const mockDocumentData: any[] = [];
 
       jest
-        .spyOn(AngularFireFirestore, 'collection')
+        .spyOn(AngularFireFirestore, 'query')
         .mockReturnValue(mockCollectionRef as any);
       jest
         .spyOn(AngularFireFirestore, 'collectionData')

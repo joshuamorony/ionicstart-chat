@@ -2,6 +2,7 @@ import { NgModule, ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, NavController } from '@ionic/angular';
 import { FormControl, FormsModule } from '@angular/forms';
+import { tap } from 'rxjs/operators';
 
 import { RouterModule } from '@angular/router';
 import { MessageListComponentModule } from './ui/message-list.component';
