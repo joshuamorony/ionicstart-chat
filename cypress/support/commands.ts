@@ -52,9 +52,7 @@ import { environment } from '../../src/environments/environment';
 firebase.initializeApp(environment.firebase);
 
 const firestoreEmulatorHost = Cypress.env('FIRESTORE_EMULATOR_HOST');
-console.log('################', firestoreEmulatorHost);
 if (firestoreEmulatorHost) {
-  console.log('DOING THIS');
   firebase.firestore().settings({
     host: firestoreEmulatorHost,
     experimentalForceLongPolling: true,
@@ -63,7 +61,6 @@ if (firestoreEmulatorHost) {
 }
 
 const authEmulatorHost = Cypress.env('FIREBASE_AUTH_EMULATOR_HOST');
-console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', authEmulatorHost);
 if (authEmulatorHost) {
   firebase.auth().useEmulator(`http://${authEmulatorHost}/`);
 }
