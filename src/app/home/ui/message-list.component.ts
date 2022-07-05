@@ -17,7 +17,11 @@ import { Message } from '../../shared/interfaces/message';
         <ion-avatar
           [slot]="message.author === activeUser.email ? 'start' : 'end'"
         >
-          <img src="" />
+          <img
+            src="https://avatars.dicebear.com/api/bottts/{{
+              activeUser.email
+            }}.svg"
+          />
         </ion-avatar>
         <ion-label>{{ message.content }}</ion-label>
       </ion-item>
