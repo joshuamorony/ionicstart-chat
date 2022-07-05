@@ -20,6 +20,12 @@ const testUser = {
   token: { email: 'test@test.com', email_verified: true },
 };
 
+const testUnverifiedUser = {
+  uid: 'def',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  token: { email: 'test@test.com', email_verified: false },
+};
+
 describe('Firestore security rules', () => {
   beforeAll(async () => {
     testEnv = await initializeTestEnvironment({
@@ -48,8 +54,8 @@ describe('Firestore security rules', () => {
 
       await Promise.all([
         assertFails(getDoc(existingDoc)), // read
-        assertFails(setDoc(newDoc, { foo: 'bar' })), // write
-        assertFails(setDoc(existingDoc, { foo: 'bar' })), // update
+        assertFails(setDoc(newDoc, { author: testUser.token.email })), // write
+        assertFails(setDoc(existingDoc, { author: testUser.token.email })), // update
         assertFails(deleteDoc(existingDoc)), // delete
       ]);
     });
@@ -63,10 +69,35 @@ describe('Firestore security rules', () => {
 
       await Promise.all([
         assertSucceeds(getDoc(existingDoc)), // read
-        assertSucceeds(setDoc(newDoc, { foo: 'bar' })), // write
-        assertFails(setDoc(existingDoc, { foo: 'bar' })), // update
+        assertSucceeds(setDoc(newDoc, { author: testUser.token.email })), // write
+        assertFails(setDoc(existingDoc, { author: testUser.token.email })), // update
         assertFails(deleteDoc(existingDoc)), // delete
       ]);
+    });
+  });
+
+  describe('creating message', () => {
+    it('can create a message if the author field matches the authenticated user email', async () => {
+      const db = getFirestore(testUser);
+      const newDoc = doc(db, 'messages', 'newDoc');
+
+      await assertSucceeds(setDoc(newDoc, { author: testUser.token.email }));
+    });
+
+    it('can NOT create a message if the author field DOES NOT match the authenticated user email', async () => {
+      const db = getFirestore(testUser);
+      const newDoc = doc(db, 'messages', 'newDoc');
+
+      await assertFails(setDoc(newDoc, { author: 'modifiedemail@test.com' }));
+    });
+
+    it('can NOT create a message if email address is not verified', async () => {
+      const db = getFirestore(testUnverifiedUser);
+      const newDoc = doc(db, 'messages', 'newDoc');
+
+      await assertFails(
+        setDoc(newDoc, { author: testUnverifiedUser.token.email })
+      );
     });
   });
 

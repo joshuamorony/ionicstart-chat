@@ -3,7 +3,8 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     match /messages/{message} {
-      allow create, read: if isAuthenticated();
+      allow read: if isAuthenticated();
+      allow create: if isValidMessage();
       allow update, delete: if false
     }
 
@@ -15,6 +16,11 @@ service cloud.firestore {
 
   function isAuthenticated(){
     return request.auth != null && request.auth.token.email_verified;
+  }
+
+  function isValidMessage(){
+    // email of incoming doc should match the authenticated user
+    return request.resource.data.author == request.auth.token.email && request.auth.token.email_verified;
   }
 
 }
