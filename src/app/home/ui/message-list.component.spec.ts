@@ -17,7 +17,7 @@ describe('MessageListComponent', () => {
   let component: MessageListComponent;
   let fixture: ComponentFixture<MessageListComponent>;
 
-  const testMessage = { author: 'josh', content: 'hello' };
+  const testMessage = { author: 'josh', content: 'hello', created: '' };
 
   const testMessages = [testMessage, testMessage, testMessage];
 

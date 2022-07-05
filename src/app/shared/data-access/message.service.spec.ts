@@ -75,7 +75,7 @@ describe('MessageService', () => {
       );
       expect(AngularFireFirestore.addDoc).toHaveBeenCalledWith(
         mockCollectionReference,
-        testMessage
+        expect.objectContaining(testMessage)
       );
     });
   });

@@ -25,6 +25,7 @@ export class MessageService {
     const newMessage: Message = {
       author: 'josh',
       content: message,
+      created: Date.now().toString(),
     };
 
     const messagesCollection = collection(this.firestore, 'messages');
