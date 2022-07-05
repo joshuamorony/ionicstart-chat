@@ -1,12 +1,13 @@
 import { NgModule, ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { FormControl, FormsModule } from '@angular/forms';
 
 import { RouterModule } from '@angular/router';
 import { MessageListComponentModule } from './ui/message-list.component';
 import { MessageService } from '../shared/data-access/message.service';
 import { MessageInputComponentModule } from './ui/message-input.component';
+import { AuthService } from '../shared/data-access/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,11 @@ import { MessageInputComponentModule } from './ui/message-input.component';
     <ion-header>
       <ion-toolbar>
         <ion-title> Chat </ion-title>
+        <ion-buttons slot="start">
+          <ion-button data-test="logout-button" (click)="logout()">
+            <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
@@ -33,7 +39,16 @@ export class HomePage {
   protected messages$ = this.messageService.getMessages();
   protected messageControl = new FormControl('');
 
-  constructor(protected messageService: MessageService) {}
+  constructor(
+    protected messageService: MessageService,
+    private authService: AuthService,
+    private navCtrl: NavController
+  ) {}
+
+  async logout() {
+    await this.authService.logout();
+    this.navCtrl.navigateRoot('/login');
+  }
 }
 
 @NgModule({

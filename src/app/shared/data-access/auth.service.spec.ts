@@ -43,6 +43,20 @@ describe('AuthService', () => {
     });
   });
 
+  describe('logout()', () => {
+    it('should return result of signOut()', async () => {
+      const testResult = 'test';
+
+      jest
+        .spyOn(AngularFireAuth, 'signOut')
+        .mockResolvedValue(testResult as any);
+
+      const result = await service.logout();
+
+      expect(result).toEqual(testResult);
+    });
+  });
+
   describe('createAccount()', () => {
     it('should return result of createUserWithEmailAndPassword()', async () => {
       const testResult = 'test';

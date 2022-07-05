@@ -4,6 +4,7 @@ import {
   authState,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from '@angular/fire/auth';
 import { Credentials } from '../interfaces/credentials';
 
@@ -21,6 +22,10 @@ export class AuthService {
       credentials.email,
       credentials.password
     );
+  }
+
+  logout() {
+    return signOut(this.auth);
   }
 
   createAccount(credentials: Credentials) {

@@ -4,3 +4,5 @@ export const getMessages = () => cy.get('[data-test="message"]');
 export const getInputBar = () => cy.get('[data-test="message-input-bar"]');
 export const getSubmitButton = () =>
   cy.get('[data-test="message-submit-button"]');
+
+export const getLogoutButton = () => cy.get('[data-test="logout-button"]');

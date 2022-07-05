@@ -1,5 +1,7 @@
 import {
   getInputBar,
+  getLoginButton,
+  getLogoutButton,
   getMessages,
   getSubmitButton,
   navigateToHomePage,
@@ -22,5 +24,10 @@ describe('Home', () => {
     getInputBar().type('hello');
     getSubmitButton().click();
     getMessages().children().first().should('contain.text', 'hello');
+  });
+
+  it('should be able to log out', () => {
+    getLogoutButton().click();
+    getLoginButton().should('be.visible');
   });
 });
