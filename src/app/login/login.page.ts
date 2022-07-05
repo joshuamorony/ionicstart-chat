@@ -8,19 +8,18 @@ import { AuthService } from '../shared/data-access/auth.service';
 import { Credentials } from '../shared/interfaces/credentials';
 import { LoginFormComponentModule } from './ui/login-form.component';
 
+export type LoginStatus = 'pending' | 'authenticating' | 'success' | 'error';
+
 @Component({
   selector: 'app-login',
   template: `
     <ion-content>
       <div class="container">
         <img src="./assets/images/logo.png" />
-        <app-login-form (login)="login($event)"></app-login-form>
-        <ion-badge
-          data-test="login-error-message"
-          *ngIf="(loginStatus$ | async) === 'error'"
-        >
-          Oops! Could not log you in with those details.
-        </ion-badge>
+        <app-login-form
+          (login)="login($event)"
+          [loginStatus]="(loginStatus$ | async)!"
+        ></app-login-form>
         <ion-modal
           [isOpen]="createModalIsOpen$ | async"
           [presentingElement]="routerOutlet.nativeEl"
@@ -78,9 +77,7 @@ import { LoginFormComponentModule } from './ui/login-form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPage {
-  loginStatus$ = new BehaviorSubject<
-    'pending' | 'authenticating' | 'success' | 'error'
-  >('pending');
+  loginStatus$ = new BehaviorSubject<LoginStatus>('pending');
 
   createModalIsOpen$ = new BehaviorSubject(false);
 

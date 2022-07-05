@@ -120,23 +120,5 @@ describe('LoginPage', () => {
 
       expect(navCtrl.navigateRoot).toHaveBeenCalledWith('/home');
     });
-
-    it('should display an error if the login is unsuccessful', async () => {
-      const authService = fixture.debugElement.injector.get(AuthService);
-      const navCtrl = fixture.debugElement.injector.get(NavController);
-      jest.spyOn(authService, 'login').mockRejectedValue({} as any);
-
-      await component.login(testCredentials);
-
-      expect(navCtrl.navigateRoot).not.toHaveBeenCalled();
-
-      fixture.detectChanges();
-
-      const errorMessage = fixture.debugElement.query(
-        By.css('[data-test="login-error-message"]')
-      );
-
-      expect(errorMessage).toBeTruthy();
-    });
   });
 });

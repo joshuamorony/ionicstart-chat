@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -11,6 +17,7 @@ import { LoginFormComponent } from './login-form.component';
   template: ``,
 })
 export class MockLoginFormComponent {
+  @Input() loginStatus: any;
   @Output() login = new EventEmitter();
 }
 
@@ -23,7 +30,11 @@ describe('LoginFormComponent', () => {
       declarations: [LoginFormComponent],
       imports: [IonicModule.forRoot(), ReactiveFormsModule],
       providers: [FormBuilder],
-    }).compileComponents();
+    })
+      .overrideComponent(LoginFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
@@ -33,6 +44,41 @@ describe('LoginFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('@Input() loginStatus', () => {
+    it('should disable the login button if the status is authenticating', () => {
+      component.loginStatus = 'authenticating';
+      fixture.detectChanges();
+
+      const loginButton = fixture.debugElement.query(
+        By.css('[data-test="login-button"]')
+      );
+
+      expect(loginButton.componentInstance.disabled).toBe(true);
+    });
+
+    it('should display a spinner if the status is authenticating', () => {
+      component.loginStatus = 'authenticating';
+      fixture.detectChanges();
+
+      const spinner = fixture.debugElement.query(
+        By.css('[data-test="login-button"] ion-spinner')
+      );
+
+      expect(spinner).toBeTruthy();
+    });
+
+    it('should display an error message if status is error', () => {
+      component.loginStatus = 'error';
+      fixture.detectChanges();
+
+      const errorMessage = fixture.debugElement.query(
+        By.css('[data-test="login-error-message"]')
+      );
+
+      expect(errorMessage).toBeTruthy();
+    });
   });
 
   describe('@Output() login', () => {

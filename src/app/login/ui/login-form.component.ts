@@ -1,13 +1,16 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
   NgModule,
   Output,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Credentials } from '../../shared/interfaces/credentials';
+import { LoginStatus } from '../login.page';
 
 @Component({
   selector: 'app-login-form',
@@ -35,12 +38,23 @@ import { Credentials } from '../../shared/interfaces/credentials';
           placeholder="password"
         ></ion-input>
       </ion-item>
+
+      <ion-badge
+        data-test="login-error-message"
+        *ngIf="loginStatus === 'error'"
+        color="danger"
+      >
+        Oops! Could not log you in with those details.
+      </ion-badge>
+
       <ion-button
         data-test="login-button"
         type="submit"
         color="tertiary"
         expand="full"
+        [disabled]="loginStatus === 'authenticating'"
       >
+        <ion-spinner *ngIf="loginStatus === 'authenticating'"></ion-spinner>
         Login
       </ion-button>
     </form>
@@ -49,6 +63,10 @@ import { Credentials } from '../../shared/interfaces/credentials';
     `
       ion-item {
         --background: transparent;
+      }
+
+      ion-badge {
+        padding: 1rem;
       }
 
       ion-input {
@@ -64,6 +82,7 @@ import { Credentials } from '../../shared/interfaces/credentials';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent {
+  @Input() loginStatus!: LoginStatus;
   @Output() login = new EventEmitter<Credentials>();
 
   loginForm = this.fb.group({
@@ -81,6 +100,6 @@ export class LoginFormComponent {
 @NgModule({
   declarations: [LoginFormComponent],
   exports: [LoginFormComponent],
-  imports: [IonicModule, ReactiveFormsModule],
+  imports: [IonicModule, ReactiveFormsModule, CommonModule],
 })
 export class LoginFormComponentModule {}
