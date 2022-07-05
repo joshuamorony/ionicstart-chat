@@ -3,18 +3,31 @@ import { MessageService } from './message.service';
 import * as AngularFireFirestore from '@angular/fire/firestore';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
 import { of } from 'rxjs';
+import { AuthService } from './auth.service';
 
 jest.mock('@angular/fire/firestore');
 
 describe('MessageService', () => {
   let service: MessageService;
 
+  const testUser = {
+    email: 'test@test.com',
+  };
+
   beforeEach(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
 
     TestBed.configureTestingModule({
-      providers: [AngularFireFirestore.Firestore],
+      providers: [
+        AngularFireFirestore.Firestore,
+        {
+          provide: AuthService,
+          useValue: {
+            user$: of(testUser),
+          },
+        },
+      ],
     });
     service = TestBed.inject(MessageService);
   });
@@ -53,11 +66,11 @@ describe('MessageService', () => {
   });
 
   describe('addMessage()', () => {
-    it('should create a new document in the messages collection using the supplied message', () => {
+    it('should create a new document in the messages collection using the supplied message and authenticated user as author', () => {
       const mockCollectionReference = jest.fn();
 
       const testMessage = {
-        author: 'josh',
+        author: testUser.email,
         content: 'test',
       };
 
