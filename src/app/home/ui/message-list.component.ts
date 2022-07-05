@@ -18,8 +18,9 @@ import { Message } from '../../shared/interfaces/message';
           [slot]="message.author === activeUser.email ? 'start' : 'end'"
         >
           <img
+            *ngIf="message.author"
             src="https://avatars.dicebear.com/api/bottts/{{
-              activeUser.email
+              message.author.split('@')[0]
             }}.svg"
           />
         </ion-avatar>

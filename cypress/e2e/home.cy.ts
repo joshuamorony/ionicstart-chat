@@ -16,14 +16,26 @@ describe('Home', () => {
 
   it('should display messages from Firestore when they are added', () => {
     getMessages().should('not.exist');
-    cy.callFirestore('add', 'messages', { author: 'josh', content: 'hi' });
-    getMessages().children().first().should('contain.text', 'hi');
+    cy.callFirestore('add', 'messages', {
+      author: 'josh',
+      content: 'hi',
+      created: '',
+    });
+    getMessages()
+      .children()
+      .first()
+      .get('ion-label')
+      .should('contain.text', 'hi');
   });
 
   it('should allow adding messages', () => {
     getInputBar().type('hello');
     getSubmitButton().click();
-    getMessages().children().first().should('contain.text', 'hello');
+    getMessages()
+      .children()
+      .first()
+      .get('ion-label')
+      .should('contain.text', 'hello');
   });
 
   it('should be able to log out', () => {
