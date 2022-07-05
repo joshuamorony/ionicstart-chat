@@ -1,6 +1,11 @@
-import { NgModule, ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  NgModule,
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonContent, IonicModule, NavController } from '@ionic/angular';
 import { FormControl, FormsModule } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 
@@ -37,7 +42,12 @@ import { AuthService } from '../shared/data-access/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage {
-  protected messages$ = this.messageService.getMessages();
+  @ViewChild(IonContent) ionContent!: IonContent;
+
+  protected messages$ = this.messageService
+    .getMessages()
+    .pipe(tap(() => setTimeout(() => this.ionContent?.scrollToBottom(200), 0)));
+
   protected messageControl = new FormControl('');
 
   constructor(

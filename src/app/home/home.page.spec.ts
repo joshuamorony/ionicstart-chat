@@ -1,12 +1,7 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../shared/data-access/auth.service';
 import { MessageService } from '../shared/data-access/message.service';
 
@@ -18,13 +13,17 @@ describe('HomePage', () => {
   let component: HomePage;
   let fixture: ComponentFixture<HomePage>;
 
+  let mockGetMessages$: BehaviorSubject<any>;
+
   beforeEach(waitForAsync(() => {
+    mockGetMessages$ = new BehaviorSubject([]);
+
     TestBed.configureTestingModule({
       providers: [
         {
           provide: MessageService,
           useValue: {
-            getMessages: jest.fn(),
+            getMessages: jest.fn().mockReturnValue(mockGetMessages$),
             addMessage: jest.fn(),
           },
         },
@@ -52,10 +51,17 @@ describe('HomePage', () => {
     fixture = TestBed.createComponent(HomePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    jest.spyOn(component.ionContent, 'scrollToBottom').mockResolvedValue();
   }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should trigger scrollToBottom when getMessages emits', () => {
+    mockGetMessages$.next([]);
+    expect(component.ionContent.scrollToBottom).toHaveBeenCalled();
   });
 
   describe('logout()', () => {
