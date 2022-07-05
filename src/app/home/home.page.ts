@@ -32,7 +32,7 @@ import { AuthService } from '../shared/data-access/auth.service';
     <ion-content>
       <app-message-list
         [messages]="messages$ | async"
-        [activeUser]="(authService.user$ | async)!"
+        [activeUser]="authService.user$ | async"
       ></app-message-list>
     </ion-content>
 

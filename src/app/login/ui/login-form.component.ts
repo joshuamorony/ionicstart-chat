@@ -13,25 +13,54 @@ import { Credentials } from '../../shared/interfaces/credentials';
   selector: 'app-login-form',
   template: `
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <ion-item>
-        <ion-label>email</ion-label>
+      <ion-item lines="none">
+        <ion-icon color="light" slot="start" name="mail-outline"></ion-icon>
         <ion-input
           formControlName="email"
           data-test="login-email-field"
           type="email"
+          placeholder="email"
         ></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label>password</ion-label>
+      <ion-item lines="none">
+        <ion-icon
+          color="light"
+          slot="start"
+          name="lock-closed-outline"
+        ></ion-icon>
         <ion-input
           formControlName="password"
           data-test="login-password-field"
           type="password"
+          placeholder="password"
         ></ion-input>
       </ion-item>
-      <ion-button data-test="login-button" type="submit">Login</ion-button>
+      <ion-button
+        data-test="login-button"
+        type="submit"
+        color="tertiary"
+        expand="full"
+      >
+        Login
+      </ion-button>
     </form>
   `,
+  styles: [
+    `
+      ion-item {
+        --background: transparent;
+      }
+
+      ion-input {
+        --background: var(--ion-color-primary-tint);
+        --padding-start: 1rem !important;
+        --padding-top: 1rem;
+        --padding-bottom: 1rem;
+        --padding-end: 1rem;
+        margin-bottom: 1rem;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent {

@@ -15,6 +15,7 @@ import { Message } from '../../shared/interfaces/message';
     <ion-list lines="none">
       <ion-item data-test="message" *ngFor="let message of messages">
         <ion-avatar
+          *ngIf="activeUser"
           [slot]="message.author === activeUser.email ? 'start' : 'end'"
         >
           <img
@@ -32,7 +33,7 @@ import { Message } from '../../shared/interfaces/message';
 })
 export class MessageListComponent {
   @Input() messages!: Message[] | null;
-  @Input() activeUser!: User;
+  @Input() activeUser!: User | null;
 }
 
 @NgModule({

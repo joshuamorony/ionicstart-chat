@@ -12,31 +12,69 @@ import { LoginFormComponentModule } from './ui/login-form.component';
   selector: 'app-login',
   template: `
     <ion-content>
-      <app-login-form (login)="login($event)"></app-login-form>
-      <ion-badge
-        data-test="login-error-message"
-        *ngIf="(loginStatus$ | async) === 'error'"
-      >
-        Oops! Could not log you in with those details.
-      </ion-badge>
+      <div class="container">
+        <img src="./assets/images/logo.png" />
+        <app-login-form (login)="login($event)"></app-login-form>
+        <ion-badge
+          data-test="login-error-message"
+          *ngIf="(loginStatus$ | async) === 'error'"
+        >
+          Oops! Could not log you in with those details.
+        </ion-badge>
+        <ion-modal
+          [isOpen]="createModalIsOpen$ | async"
+          [presentingElement]="routerOutlet.nativeEl"
+          [canDismiss]="true"
+          (ionModalDidDismiss)="createModalIsOpen$.next(false)"
+        >
+          <ng-template>
+            <app-create-modal></app-create-modal>
+          </ng-template>
+        </ion-modal>
+      </div>
+    </ion-content>
+    <ion-footer>
       <ion-button
+        expand="full"
         data-test="open-create-button"
         (click)="createModalIsOpen$.next(true)"
       >
         Create Account
       </ion-button>
-      <ion-modal
-        [isOpen]="createModalIsOpen$ | async"
-        [presentingElement]="routerOutlet.nativeEl"
-        [canDismiss]="true"
-        (ionModalDidDismiss)="createModalIsOpen$.next(false)"
-      >
-        <ng-template>
-          <app-create-modal></app-create-modal>
-        </ng-template>
-      </ion-modal>
-    </ion-content>
+    </ion-footer>
   `,
+  styles: [
+    `
+      ion-content {
+        --background: linear-gradient(
+          62deg,
+          var(--ion-color-primary) 0%,
+          var(--ion-color-secondary) 100%
+        );
+      }
+
+      ion-footer {
+        background: linear-gradient(
+          242deg,
+          var(--ion-color-primary) 0%,
+          var(--ion-color-secondary) 100%
+        );
+      }
+
+      .container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          padding: 2rem;
+          filter: drop-shadow(2px 4px 6px var(--ion-color-primary-shade));
+        }
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPage {
