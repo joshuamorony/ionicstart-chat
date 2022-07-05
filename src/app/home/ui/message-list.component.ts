@@ -5,6 +5,7 @@ import {
   Input,
   NgModule,
 } from '@angular/core';
+import { User } from '@angular/fire/auth';
 import { IonicModule } from '@ionic/angular';
 import { Message } from '../../shared/interfaces/message';
 
@@ -13,6 +14,11 @@ import { Message } from '../../shared/interfaces/message';
   template: `
     <ion-list lines="none">
       <ion-item data-test="message" *ngFor="let message of messages">
+        <ion-avatar
+          [slot]="message.author === activeUser.email ? 'start' : 'end'"
+        >
+          <img src="" />
+        </ion-avatar>
         <ion-label>{{ message.content }}</ion-label>
       </ion-item>
     </ion-list>
@@ -21,6 +27,7 @@ import { Message } from '../../shared/interfaces/message';
 })
 export class MessageListComponent {
   @Input() messages!: Message[] | null;
+  @Input() activeUser!: User;
 }
 
 @NgModule({

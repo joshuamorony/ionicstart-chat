@@ -30,7 +30,10 @@ import { AuthService } from '../shared/data-access/auth.service';
     </ion-header>
 
     <ion-content>
-      <app-message-list [messages]="messages$ | async"></app-message-list>
+      <app-message-list
+        [messages]="messages$ | async"
+        [activeUser]="(authService.user$ | async)!"
+      ></app-message-list>
     </ion-content>
 
     <ion-footer>
@@ -52,7 +55,7 @@ export class HomePage {
 
   constructor(
     protected messageService: MessageService,
-    private authService: AuthService,
+    protected authService: AuthService,
     private navCtrl: NavController
   ) {}
 
