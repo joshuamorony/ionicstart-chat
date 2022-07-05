@@ -35,7 +35,7 @@ describe('CreateModalComponent', () => {
         {
           provide: NavController,
           useValue: {
-            navigateForward: jest.fn(),
+            navigateRoot: jest.fn(),
           },
         },
       ],
@@ -72,7 +72,7 @@ describe('CreateModalComponent', () => {
     await component.createAccount(testCredentials);
 
     expect(modalCtrl.dismiss).toHaveBeenCalled();
-    expect(navCtrl.navigateForward).toHaveBeenCalledWith('/home');
+    expect(navCtrl.navigateRoot).toHaveBeenCalledWith('/home');
   });
 
   it('should display an error if account creation fails', async () => {
@@ -82,7 +82,7 @@ describe('CreateModalComponent', () => {
 
     await component.createAccount(testCredentials);
 
-    expect(navCtrl.navigateForward).not.toHaveBeenCalled();
+    expect(navCtrl.navigateRoot).not.toHaveBeenCalled();
 
     fixture.detectChanges();
 

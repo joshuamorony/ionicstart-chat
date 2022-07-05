@@ -29,7 +29,7 @@ describe('LoginPage', () => {
         {
           provide: NavController,
           useValue: {
-            navigateForward: jest.fn(),
+            navigateRoot: jest.fn(),
           },
         },
         {
@@ -118,7 +118,7 @@ describe('LoginPage', () => {
 
       await component.login(testCredentials);
 
-      expect(navCtrl.navigateForward).toHaveBeenCalledWith('/home');
+      expect(navCtrl.navigateRoot).toHaveBeenCalledWith('/home');
     });
 
     it('should display an error if the login is unsuccessful', async () => {
@@ -128,7 +128,7 @@ describe('LoginPage', () => {
 
       await component.login(testCredentials);
 
-      expect(navCtrl.navigateForward).not.toHaveBeenCalled();
+      expect(navCtrl.navigateRoot).not.toHaveBeenCalled();
 
       fixture.detectChanges();
 

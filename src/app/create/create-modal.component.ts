@@ -58,7 +58,7 @@ export class CreateModalComponent {
       await this.authService.createAccount(credentials);
       this.createStatus$.next('success');
       this.modalCtrl.dismiss();
-      this.navCtrl.navigateForward('/home');
+      this.navCtrl.navigateRoot('/home');
     } catch (err) {
       this.createStatus$.next('error');
     }

@@ -58,7 +58,7 @@ export class LoginPage {
     try {
       await this.authService.login(credentials);
       this.loginStatus$.next('success');
-      this.navCtrl.navigateForward('/home');
+      this.navCtrl.navigateRoot('/home');
     } catch (err) {
       this.loginStatus$.next('error');
     }
