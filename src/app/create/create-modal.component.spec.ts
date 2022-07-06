@@ -75,24 +75,6 @@ describe('CreateModalComponent', () => {
     expect(navCtrl.navigateRoot).toHaveBeenCalledWith('/home');
   });
 
-  it('should display an error if account creation fails', async () => {
-    const authService = fixture.debugElement.injector.get(AuthService);
-    const navCtrl = fixture.debugElement.injector.get(NavController);
-    jest.spyOn(authService, 'createAccount').mockRejectedValue({} as any);
-
-    await component.createAccount(testCredentials);
-
-    expect(navCtrl.navigateRoot).not.toHaveBeenCalled();
-
-    fixture.detectChanges();
-
-    const errorMessage = fixture.debugElement.query(
-      By.css('[data-test="create-error-message"]')
-    );
-
-    expect(errorMessage).toBeTruthy();
-  });
-
   describe('createStatus$', () => {
     it('should be pending initially', () => {
       const observerSpy = subscribeSpyTo(component.createStatus$);

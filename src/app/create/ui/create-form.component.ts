@@ -2,12 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
   NgModule,
   Output,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Credentials } from '../../shared/interfaces/credentials';
+import { CreateStatus } from '../create-modal.component';
 import { passwordMatchesValidator } from '../utils/password-matches';
 
 @Component({
@@ -38,7 +40,18 @@ import { passwordMatchesValidator } from '../utils/password-matches';
           type="password"
         ></ion-input>
       </ion-item>
-      <ion-button data-test="create-button" type="submit">
+      <ion-badge
+        data-test="create-error-message"
+        *ngIf="createStatus === 'error'"
+      >
+        Oops! Could not create account with those details.
+      </ion-badge>
+      <ion-button
+        data-test="create-button"
+        type="submit"
+        [disabled]="createStatus === 'creating'"
+      >
+        <ion-spinner *ngIf="createStatus === 'creating'"></ion-spinner>
         Create Account
       </ion-button>
     </form>
@@ -53,6 +66,7 @@ import { passwordMatchesValidator } from '../utils/password-matches';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateFormComponent {
+  @Input() createStatus!: CreateStatus;
   @Output() create = new EventEmitter<Credentials>();
 
   createForm = this.fb.group(

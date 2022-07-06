@@ -59,26 +59,6 @@ import { LoginStatus } from '../login.page';
       </ion-button>
     </form>
   `,
-  styles: [
-    `
-      ion-item {
-        --background: transparent;
-      }
-
-      ion-badge {
-        padding: 1rem;
-      }
-
-      ion-input {
-        --background: var(--ion-color-primary-tint);
-        --padding-start: 1rem !important;
-        --padding-top: 1rem;
-        --padding-bottom: 1rem;
-        --padding-end: 1rem;
-        margin-bottom: 1rem;
-      }
-    `,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent {

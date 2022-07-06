@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -11,6 +17,7 @@ import { CreateFormComponent } from './create-form.component';
   template: ``,
 })
 export class MockCreateFormComponent {
+  @Input() createStatus: any;
   @Output() create = new EventEmitter();
 }
 
@@ -23,7 +30,11 @@ describe('CreateFormComponent', () => {
       declarations: [CreateFormComponent],
       imports: [IonicModule.forRoot(), ReactiveFormsModule],
       providers: [FormBuilder],
-    }).compileComponents();
+    })
+      .overrideComponent(CreateFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(CreateFormComponent);
     component = fixture.componentInstance;
@@ -33,6 +44,41 @@ describe('CreateFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('@Input() createStatus', () => {
+    it('should disable the create button if the status is creating', () => {
+      component.createStatus = 'creating';
+      fixture.detectChanges();
+
+      const createButton = fixture.debugElement.query(
+        By.css('[data-test="create-button"]')
+      );
+
+      expect(createButton.componentInstance.disabled).toBe(true);
+    });
+
+    it('should display a spinner if the status is creating', () => {
+      component.createStatus = 'creating';
+      fixture.detectChanges();
+
+      const spinner = fixture.debugElement.query(
+        By.css('[data-test="create-button"] ion-spinner')
+      );
+
+      expect(spinner).toBeTruthy();
+    });
+
+    it('should display an error message if status is error', () => {
+      component.createStatus = 'error';
+      fixture.detectChanges();
+
+      const errorMessage = fixture.debugElement.query(
+        By.css('[data-test="create-error-message"]')
+      );
+
+      expect(errorMessage).toBeTruthy();
+    });
   });
 
   describe('@Output() create', () => {

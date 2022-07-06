@@ -6,6 +6,8 @@ import { AuthService } from '../shared/data-access/auth.service';
 import { Credentials } from '../shared/interfaces/credentials';
 import { CreateFormComponentModule } from './ui/create-form.component';
 
+export type CreateStatus = 'pending' | 'creating' | 'success' | 'error';
+
 @Component({
   selector: 'app-create-modal',
   template: `
@@ -22,13 +24,10 @@ import { CreateFormComponentModule } from './ui/create-form.component';
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <app-create-form (create)="createAccount($event)"></app-create-form>
-      <ion-badge
-        data-test="create-error-message"
-        *ngIf="(createStatus$ | async) === 'error'"
-      >
-        Oops! Could not create account with those details.
-      </ion-badge>
+      <app-create-form
+        (create)="createAccount($event)"
+        [createStatus]="(createStatus$ | async)!"
+      ></app-create-form>
     </ion-content>
   `,
   styles: [
@@ -41,9 +40,7 @@ import { CreateFormComponentModule } from './ui/create-form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateModalComponent {
-  createStatus$ = new BehaviorSubject<
-    'pending' | 'creating' | 'success' | 'error'
-  >('pending');
+  createStatus$ = new BehaviorSubject<CreateStatus>('pending');
 
   constructor(
     protected authService: AuthService,
