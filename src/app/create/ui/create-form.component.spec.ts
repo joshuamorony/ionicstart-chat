@@ -46,6 +46,18 @@ describe('CreateFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should display validation error message if form is invalid and the form has been touched', () => {
+    component.createForm.get('email')?.setValue('test');
+
+    fixture.detectChanges();
+
+    const validationErrorMessage = fixture.debugElement.query(
+      By.css('[data-test="validation-message"]')
+    );
+
+    expect(validationErrorMessage).toBeTruthy();
+  });
+
   describe('@Input() createStatus', () => {
     it('should disable the create button if the status is creating', () => {
       component.createStatus = 'creating';

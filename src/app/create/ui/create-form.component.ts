@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,6 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { map } from 'rxjs/operators';
 import { Credentials } from '../../shared/interfaces/credentials';
 import { CreateStatus } from '../create-modal.component';
 import { passwordMatchesValidator } from '../utils/password-matches';
@@ -40,6 +42,13 @@ import { passwordMatchesValidator } from '../utils/password-matches';
           type="password"
         ></ion-input>
       </ion-item>
+      <ion-badge
+        data-test="validation-message"
+        *ngIf="showValidationMessage$ | async"
+      >
+        Please supply a valid email address and a password that is at least 8
+        characters long
+      </ion-badge>
       <ion-badge
         data-test="create-error-message"
         *ngIf="createStatus === 'error'"
@@ -86,6 +95,10 @@ export class CreateFormComponent {
     }
   );
 
+  showValidationMessage$ = this.createForm.statusChanges.pipe(
+    map((status) => status === 'INVALID')
+  );
+
   constructor(private fb: FormBuilder) {}
 
   protected onSubmit() {
@@ -101,6 +114,6 @@ export class CreateFormComponent {
 @NgModule({
   declarations: [CreateFormComponent],
   exports: [CreateFormComponent],
-  imports: [IonicModule, ReactiveFormsModule],
+  imports: [IonicModule, ReactiveFormsModule, CommonModule],
 })
 export class CreateFormComponentModule {}
