@@ -15,12 +15,12 @@ service cloud.firestore {
   }
 
   function isAuthenticated(){
-    return request.auth != null && request.auth.token.email_verified;
+    return request.auth != null;
   }
 
   function isValidMessage(){
     // email of incoming doc should match the authenticated user
-    return request.resource.data.author == request.auth.token.email && request.auth.token.email_verified;
+    return request.resource.data.author == request.auth.token.email;
   }
 
 }

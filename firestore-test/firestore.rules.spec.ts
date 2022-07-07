@@ -91,14 +91,14 @@ describe('Firestore security rules', () => {
       await assertFails(setDoc(newDoc, { author: 'modifiedemail@test.com' }));
     });
 
-    it('can NOT create a message if email address is not verified', async () => {
-      const db = getFirestore(testUnverifiedUser);
-      const newDoc = doc(db, 'messages', 'newDoc');
+    // it('can NOT create a message if email address is not verified', async () => {
+    //   const db = getFirestore(testUnverifiedUser);
+    //   const newDoc = doc(db, 'messages', 'newDoc');
 
-      await assertFails(
-        setDoc(newDoc, { author: testUnverifiedUser.token.email })
-      );
-    });
+    //   await assertFails(
+    //     setDoc(newDoc, { author: testUnverifiedUser.token.email })
+    //   );
+    // });
   });
 
   afterAll(async () => {
