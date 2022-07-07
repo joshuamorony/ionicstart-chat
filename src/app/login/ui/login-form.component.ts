@@ -66,8 +66,8 @@ export class LoginFormComponent {
   @Output() login = new EventEmitter<Credentials>();
 
   loginForm = this.fb.group({
-    email: this.fb.control('', { nonNullable: true }),
-    password: this.fb.control('', { nonNullable: true }),
+    email: [''],
+    password: [''],
   });
 
   constructor(private fb: FormBuilder) {}

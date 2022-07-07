@@ -46,16 +46,51 @@ describe('CreateFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display validation error message if form is invalid and the form has been touched', () => {
-    component.createForm.get('email')?.setValue('test');
+  describe('createForm', () => {
+    describe('is invalid', () => {
+      it('should not display errors initially', () => {
+        const emailError = fixture.debugElement.query(
+          By.css('[data-test="email-validation"]')
+        );
+        const passwordError = fixture.debugElement.query(
+          By.css('[data-test="password-validation"]')
+        );
+        const confirmPasswordError = fixture.debugElement.query(
+          By.css('[data-test="confirm-password-validation"]')
+        );
 
-    fixture.detectChanges();
+        expect(emailError).toBeFalsy();
+        expect(passwordError).toBeFalsy();
+        expect(confirmPasswordError).toBeFalsy();
+      });
 
-    const validationErrorMessage = fixture.debugElement.query(
-      By.css('[data-test="validation-message"]')
-    );
+      it('should display errors once dirty', () => {
+        const submitButton = fixture.debugElement.query(
+          By.css('[data-test="create-button"]')
+        );
+        submitButton.nativeElement.click();
 
-    expect(validationErrorMessage).toBeTruthy();
+        component.createForm.controls.email.markAsDirty();
+        component.createForm.controls.password.markAsDirty();
+        component.createForm.controls.confirmPassword.markAsDirty();
+
+        fixture.detectChanges();
+
+        const emailError = fixture.debugElement.query(
+          By.css('[data-test="email-validation"]')
+        );
+        const passwordError = fixture.debugElement.query(
+          By.css('[data-test="password-validation"]')
+        );
+        const confirmPasswordError = fixture.debugElement.query(
+          By.css('[data-test="confirm-password-validation"]')
+        );
+
+        expect(emailError).toBeTruthy();
+        expect(passwordError).toBeTruthy();
+        expect(confirmPasswordError).toBeTruthy();
+      });
+    });
   });
 
   describe('@Input() createStatus', () => {

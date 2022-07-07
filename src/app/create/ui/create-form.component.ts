@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { map } from 'rxjs/operators';
 import { Credentials } from '../../shared/interfaces/credentials';
 import { CreateStatus } from '../create-modal.component';
 import { passwordMatchesValidator } from '../utils/password-matches';
@@ -17,7 +16,7 @@ import { passwordMatchesValidator } from '../utils/password-matches';
 @Component({
   selector: 'app-create-form',
   template: `
-    <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="createForm" (ngSubmit)="onSubmit()" #form="ngForm">
       <ion-item>
         <ion-label>email</ion-label>
         <ion-input
@@ -26,6 +25,15 @@ import { passwordMatchesValidator } from '../utils/password-matches';
           type="email"
         ></ion-input>
       </ion-item>
+      <ion-badge
+        data-test="email-validation"
+        *ngIf="
+          (createForm.controls.email.dirty || form.submitted) &&
+          !createForm.controls.email.valid
+        "
+      >
+        Please provide a valid email
+      </ion-badge>
       <ion-item>
         <ion-label>password</ion-label>
         <ion-input
@@ -34,6 +42,15 @@ import { passwordMatchesValidator } from '../utils/password-matches';
           type="password"
         ></ion-input>
       </ion-item>
+      <ion-badge
+        data-test="password-validation"
+        *ngIf="
+          (createForm.controls.password.dirty || form.submitted) &&
+          !createForm.controls.password.valid
+        "
+      >
+        Password must be at least 8 characters long
+      </ion-badge>
       <ion-item>
         <ion-label>confirm password</ion-label>
         <ion-input
@@ -43,11 +60,13 @@ import { passwordMatchesValidator } from '../utils/password-matches';
         ></ion-input>
       </ion-item>
       <ion-badge
-        data-test="validation-message"
-        *ngIf="showValidationMessage$ | async"
+        data-test="confirm-password-validation"
+        *ngIf="
+          (createForm.controls.confirmPassword.dirty || form.submitted) &&
+          createForm.hasError('passwordMatch')
+        "
       >
-        Please supply a valid email address and a password that is at least 8
-        characters long
+        Must match password field
       </ion-badge>
       <ion-badge
         data-test="create-error-message"
@@ -58,6 +77,7 @@ import { passwordMatchesValidator } from '../utils/password-matches';
       <ion-button
         data-test="create-button"
         type="submit"
+        expand="full"
         [disabled]="createStatus === 'creating'"
       >
         <ion-spinner *ngIf="createStatus === 'creating'"></ion-spinner>
@@ -80,34 +100,23 @@ export class CreateFormComponent {
 
   createForm = this.fb.group(
     {
-      email: this.fb.control('', {
-        nonNullable: true,
-        validators: [Validators.email],
-      }),
-      password: this.fb.control('', {
-        nonNullable: true,
-        validators: [Validators.minLength(8)],
-      }),
-      confirmPassword: this.fb.control(''),
+      email: ['', [Validators.email, Validators.required]],
+      password: ['', [Validators.minLength(8), Validators.required]],
+      confirmPassword: ['', [Validators.required]],
     },
     {
+      updateOn: 'blur',
       validators: [passwordMatchesValidator],
     }
   );
 
-  showValidationMessage$ = this.createForm.statusChanges.pipe(
-    map((status) => status === 'INVALID')
-  );
-
   constructor(private fb: FormBuilder) {}
 
-  protected onSubmit() {
-    if (!this.createForm.valid) {
-      return;
+  onSubmit() {
+    if (this.createForm.valid) {
+      const { confirmPassword, ...credentials } = this.createForm.value;
+      this.create.emit(credentials as Credentials);
     }
-
-    const { confirmPassword, ...credentials } = this.createForm.value;
-    this.create.emit(credentials as Credentials);
   }
 }
 
