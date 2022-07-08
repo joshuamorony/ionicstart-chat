@@ -44,7 +44,7 @@ import { LoginStatus } from '../login.page';
         *ngIf="loginStatus === 'error'"
         color="danger"
       >
-        Oops! Could not log you in with those details.
+        Could not log you in with those details.
       </ion-badge>
 
       <ion-button
@@ -59,6 +59,13 @@ import { LoginStatus } from '../login.page';
       </ion-button>
     </form>
   `,
+  styles: [
+    `
+      ion-badge {
+        width: 100%;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent {

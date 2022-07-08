@@ -12,7 +12,8 @@ export type CreateStatus = 'pending' | 'creating' | 'success' | 'error';
   selector: 'app-create-modal',
   template: `
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
+        <ion-title>Create Account</ion-title>
         <ion-buttons slot="end">
           <ion-button
             data-test="modal-close-button"
@@ -34,6 +35,14 @@ export type CreateStatus = 'pending' | 'creating' | 'success' | 'error';
     `
       :host {
         height: 100%;
+      }
+
+      ion-content {
+        --background: linear-gradient(
+          62deg,
+          var(--ion-color-primary) 0%,
+          var(--ion-color-secondary) 100%
+        );
       }
     `,
   ],
