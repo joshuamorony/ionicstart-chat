@@ -18,9 +18,11 @@ import { AuthService } from '../shared/data-access/auth.service';
 @Component({
   selector: 'app-home',
   template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-title> Chat </ion-title>
+    <ion-header class="ion-no-border">
+      <ion-toolbar color="primary">
+        <ion-title>
+          <img src="assets/images/logo.png" />
+        </ion-title>
         <ion-buttons slot="start">
           <ion-button data-test="logout-button" (click)="logout()">
             <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
@@ -42,6 +44,19 @@ import { AuthService } from '../shared/data-access/auth.service';
       ></app-message-input>
     </ion-footer>
   `,
+  styles: [
+    `
+      ion-content {
+        --ion-background-color: var(--ion-color-primary);
+      }
+
+      ion-title img {
+        max-height: 39px;
+        margin-top: 9px;
+        filter: drop-shadow(2px 4px 6px var(--ion-color-primary-shade));
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage {

@@ -47,3 +47,39 @@ form {
     margin: 0.5rem 0 !important;
   }
 }
+
+@keyframes animateInPrimary {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes animateInSecondary {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-in-primary {
+  animation: animateInPrimary;
+  animation: animateInPrimary;
+  animation-duration: 750ms;
+}
+
+.animate-in-secondary {
+  animation: animateInSecondary ease-in 1;
+  animation: animateInSecondary ease-in 1;
+  animation-duration: 750ms;
+}

@@ -11,7 +11,7 @@ import { IonicModule } from '@ionic/angular';
 @Component({
   selector: 'app-message-input',
   template: `
-    <ion-toolbar>
+    <ion-toolbar color="primary">
       <ion-textarea
         data-test="message-input-bar"
         [formControl]="messageControl"
@@ -24,6 +24,15 @@ import { IonicModule } from '@ionic/angular';
       </ion-buttons>
     </ion-toolbar>
   `,
+  styles: [
+    `
+      ion-textarea {
+        font-size: 1.2em !important;
+        --padding-top: 25px;
+        --padding-start: 15px;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageInputComponent {
