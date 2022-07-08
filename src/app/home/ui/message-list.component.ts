@@ -29,7 +29,7 @@ import { Message } from '../../shared/interfaces/message';
             }}.svg"
           />
         </ion-avatar>
-        <div class="chat-message animate-in-secondary">
+        <div data-test="chat-message" class="chat-message animate-in-secondary">
           <ion-note>{{ message.author }}</ion-note>
           <p>{{ message.content }}</p>
         </div>

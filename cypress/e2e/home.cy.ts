@@ -24,7 +24,7 @@ describe('Home', () => {
     getMessages()
       .children()
       .first()
-      .get('ion-label')
+      .get('[data-test="chat-message"]')
       .should('contain.text', 'hi');
   });
 
@@ -34,7 +34,7 @@ describe('Home', () => {
     getMessages()
       .children()
       .first()
-      .get('ion-label')
+      .get('[data-test="chat-message"]')
       .should('contain.text', 'hello');
   });
 
