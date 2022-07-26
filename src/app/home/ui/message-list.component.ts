@@ -44,11 +44,11 @@ import { Message } from '../../shared/interfaces/message';
       }
 
       .chat-message {
-        background-color: #fff;
         width: 100%;
         padding: 10px;
         border-radius: 10px;
         margin: 10px 0;
+        background-color: var(--ion-color-light);
 
         p {
           margin: 5px 0;
