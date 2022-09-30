@@ -10,7 +10,7 @@ import {
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Credentials } from '../../shared/interfaces/credentials';
-import { LoginStatus } from '../login.page';
+import { LoginStatus } from '../data-access/login.store';
 
 @Component({
   selector: 'app-login-form',

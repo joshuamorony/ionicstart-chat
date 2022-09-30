@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import * as AngularFireAuth from '@angular/fire/auth';
+import { subscribeSpyTo } from '@hirez_io/observer-spy';
+import { from, of } from 'rxjs';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
@@ -19,7 +21,7 @@ describe('AuthService', () => {
   });
 
   describe('login()', () => {
-    it('should return result of signInWithEmailAndPassword()', async () => {
+    it('should return result of signInWithEmailAndPassword() as an observable', (done) => {
       const testResult = 'test';
 
       jest
@@ -31,15 +33,17 @@ describe('AuthService', () => {
         password: 'abc123',
       };
 
-      const result = await service.login(testCredentials);
+      service.login(testCredentials).subscribe((result) => {
+        expect(AngularFireAuth.signInWithEmailAndPassword).toHaveBeenCalledWith(
+          fireAuth,
+          testCredentials.email,
+          testCredentials.password
+        );
 
-      expect(AngularFireAuth.signInWithEmailAndPassword).toHaveBeenCalledWith(
-        fireAuth,
-        testCredentials.email,
-        testCredentials.password
-      );
+        expect(result).toEqual(testResult);
 
-      expect(result).toEqual(testResult);
+        done();
+      });
     });
   });
 

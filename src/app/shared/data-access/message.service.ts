@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { User } from '@angular/fire/auth';
 import {
   addDoc,
   collection,
-  query,
-  orderBy,
-  limit,
   collectionData,
   Firestore,
+  limit,
+  orderBy,
+  query,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Message } from '../interfaces/message';
 import { AuthService } from './auth.service';
 

@@ -1,46 +1,46 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IonicModule, IonRouterOutlet, NavController } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
+import { IonicModule, IonRouterOutlet } from '@ionic/angular';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CreateModalComponentModule } from '../create/create-modal.component';
-import { AuthService } from '../shared/data-access/auth.service';
-import { Credentials } from '../shared/interfaces/credentials';
+import { LoginStore } from './data-access/login.store';
 import { LoginFormComponentModule } from './ui/login-form.component';
-
-export type LoginStatus = 'pending' | 'authenticating' | 'success' | 'error';
 
 @Component({
   selector: 'app-login',
   template: `
-    <ion-content>
-      <div class="container">
-        <img src="./assets/images/logo.png" />
-        <app-login-form
-          (login)="login($event)"
-          [loginStatus]="(loginStatus$ | async)!"
-        ></app-login-form>
-        <ion-modal
-          [isOpen]="createModalIsOpen$ | async"
-          [presentingElement]="routerOutlet.nativeEl"
-          [canDismiss]="true"
-          (ionModalDidDismiss)="createModalIsOpen$.next(false)"
+    <ng-container *ngIf="vm$ | async as vm">
+      <ion-content>
+        <div class="container">
+          <img src="./assets/images/logo.png" />
+          <app-login-form
+            (login)="store.login($event)"
+            [loginStatus]="vm.status"
+          ></app-login-form>
+          <ion-modal
+            [isOpen]="vm.createModalIsOpen"
+            [presentingElement]="routerOutlet.nativeEl"
+            [canDismiss]="true"
+            (ionModalDidDismiss)="store.setCreateModalOpen(false)"
+          >
+            <ng-template>
+              <app-create-modal></app-create-modal>
+            </ng-template>
+          </ion-modal>
+        </div>
+      </ion-content>
+      <ion-footer>
+        <ion-button
+          expand="full"
+          data-test="open-create-button"
+          (click)="store.setCreateModalOpen(true)"
         >
-          <ng-template>
-            <app-create-modal></app-create-modal>
-          </ng-template>
-        </ion-modal>
-      </div>
-    </ion-content>
-    <ion-footer>
-      <ion-button
-        expand="full"
-        data-test="open-create-button"
-        (click)="createModalIsOpen$.next(true)"
-      >
-        Create Account
-      </ion-button>
-    </ion-footer>
+          Create Account
+        </ion-button>
+      </ion-footer>
+    </ng-container>
   `,
   styles: [
     `
@@ -75,29 +75,17 @@ export type LoginStatus = 'pending' | 'authenticating' | 'success' | 'error';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [LoginStore],
 })
 export class LoginPage {
-  loginStatus$ = new BehaviorSubject<LoginStatus>('pending');
-
-  createModalIsOpen$ = new BehaviorSubject(false);
+  vm$ = combineLatest([this.store.status$, this.store.createModalIsOpen$]).pipe(
+    map(([status, createModalIsOpen]) => ({ status, createModalIsOpen }))
+  );
 
   constructor(
-    private authService: AuthService,
-    private navCtrl: NavController,
+    public store: LoginStore,
     protected routerOutlet: IonRouterOutlet
   ) {}
-
-  async login(credentials: Credentials) {
-    this.loginStatus$.next('authenticating');
-
-    try {
-      await this.authService.login(credentials);
-      this.loginStatus$.next('success');
-      this.navCtrl.navigateRoot('/home');
-    } catch (err) {
-      this.loginStatus$.next('error');
-    }
-  }
 }
 
 @NgModule({
