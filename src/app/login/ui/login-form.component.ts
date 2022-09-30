@@ -72,7 +72,7 @@ export class LoginFormComponent {
   @Input() loginStatus!: LoginStatus;
   @Output() login = new EventEmitter<Credentials>();
 
-  loginForm = this.fb.group({
+  loginForm = this.fb.nonNullable.group({
     email: [''],
     password: [''],
   });
@@ -80,7 +80,7 @@ export class LoginFormComponent {
   constructor(private fb: FormBuilder) {}
 
   protected onSubmit() {
-    this.login.emit(this.loginForm.value as Credentials);
+    this.login.emit(this.loginForm.getRawValue());
   }
 }
 

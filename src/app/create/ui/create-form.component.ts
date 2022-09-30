@@ -122,7 +122,7 @@ export class CreateFormComponent {
   @Input() createStatus!: CreateStatus;
   @Output() create = new EventEmitter<Credentials>();
 
-  createForm = this.fb.group(
+  createForm = this.fb.nonNullable.group(
     {
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.minLength(8), Validators.required]],
@@ -138,8 +138,8 @@ export class CreateFormComponent {
 
   onSubmit() {
     if (this.createForm.valid) {
-      const { confirmPassword, ...credentials } = this.createForm.value;
-      this.create.emit(credentials as Credentials);
+      const { confirmPassword, ...credentials } = this.createForm.getRawValue();
+      this.create.emit(credentials);
     }
   }
 }

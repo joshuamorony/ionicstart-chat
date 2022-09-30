@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { from, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { AuthService } from '../../shared/data-access/auth.service';
 import { Credentials } from '../../shared/interfaces/credentials';
