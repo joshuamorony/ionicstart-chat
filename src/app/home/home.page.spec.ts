@@ -39,6 +39,7 @@ describe('HomePage', () => {
           provide: HomeStore,
           useValue: {
             logout: jest.fn(),
+            loadMessages: jest.fn(),
             messages$: mockGetMessages$,
           },
         },
@@ -69,6 +70,16 @@ describe('HomePage', () => {
   xit('should trigger scrollToBottom when getMessages emits', () => {
     mockGetMessages$.next([]);
     expect(component.ionContent.scrollToBottom).toHaveBeenCalled();
+  });
+
+  describe('ngOnInit', () => {
+    it('should call load messages from store', () => {
+      const homeStore = fixture.debugElement.injector.get(HomeStore);
+      jest.spyOn(homeStore, 'loadMessages');
+
+      component.ngOnInit();
+      expect(homeStore.loadMessages).toHaveBeenCalled();
+    });
   });
 
   describe('message-input send event emits', () => {

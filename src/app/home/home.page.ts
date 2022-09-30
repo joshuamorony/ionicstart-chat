@@ -83,6 +83,8 @@ export class HomePage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.store.loadMessages();
+
     this.store.messages$.pipe(
       tap(() => setTimeout(() => this.ionContent?.scrollToBottom(200), 0))
     );
