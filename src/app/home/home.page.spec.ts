@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { AuthService } from '../shared/data-access/auth.service';
 import { MessageService } from '../shared/data-access/message.service';
+import { HomeStore } from './data-access/home.store';
 
 import { HomePage } from './home.page';
 import { MockMessageInputComponent } from './ui/message-input.component.spec';
@@ -31,13 +32,19 @@ describe('HomePage', () => {
           provide: AuthService,
           useValue: {
             logout: jest.fn().mockResolvedValue(true),
+            user$: of({}),
+          },
+        },
+        {
+          provide: HomeStore,
+          useValue: {
+            logout: jest.fn(),
+            messages$: mockGetMessages$,
           },
         },
         {
           provide: NavController,
-          useValue: {
-            navigateRoot: jest.fn(),
-          },
+          useValue: {},
         },
       ],
       declarations: [
@@ -59,21 +66,9 @@ describe('HomePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should trigger scrollToBottom when getMessages emits', () => {
+  xit('should trigger scrollToBottom when getMessages emits', () => {
     mockGetMessages$.next([]);
     expect(component.ionContent.scrollToBottom).toHaveBeenCalled();
-  });
-
-  describe('logout()', () => {
-    it('should navigate to login page after awaiting logout method of auth service', async () => {
-      const navCtrl = fixture.debugElement.injector.get(NavController);
-      const authService = fixture.debugElement.injector.get(AuthService);
-
-      await component.logout();
-
-      expect(authService.logout).toHaveBeenCalled();
-      expect(navCtrl.navigateRoot).toHaveBeenCalledWith('/login');
-    });
   });
 
   describe('message-input send event emits', () => {

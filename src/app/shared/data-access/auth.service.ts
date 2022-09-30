@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from '@angular/fire/auth';
-import { from } from 'rxjs';
+import { from, of } from 'rxjs';
 import { Credentials } from '../interfaces/credentials';
 
 @Injectable({
@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   logout() {
-    return signOut(this.auth);
+    return from(signOut(this.auth));
   }
 
   createAccount(credentials: Credentials) {

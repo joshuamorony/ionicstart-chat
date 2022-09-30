@@ -3,46 +3,52 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewChild,
+  OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonContent, IonicModule, NavController } from '@ionic/angular';
 import { FormControl, FormsModule } from '@angular/forms';
-import { tap } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
 
 import { RouterModule } from '@angular/router';
 import { MessageListComponentModule } from './ui/message-list.component';
 import { MessageService } from '../shared/data-access/message.service';
 import { MessageInputComponentModule } from './ui/message-input.component';
 import { AuthService } from '../shared/data-access/auth.service';
+import { HomeStore } from './data-access/home.store';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   template: `
-    <ion-header class="ion-no-border">
-      <ion-toolbar color="primary">
-        <ion-title>
-          <img src="assets/images/logo.png" />
-        </ion-title>
-        <ion-buttons slot="start">
-          <ion-button data-test="logout-button" (click)="logout()">
-            <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
+    <ng-container *ngIf="vm$ | async as vm">
+      <ion-header class="ion-no-border">
+        <ion-toolbar color="primary">
+          <ion-title>
+            <img src="assets/images/logo.png" />
+          </ion-title>
+          <ion-buttons slot="start">
+            <ion-button data-test="logout-button" (click)="store.logout()">
+              <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
 
-    <ion-content>
-      <app-message-list
-        [messages]="messages$ | async"
-        [activeUser]="authService.user$ | async"
-      ></app-message-list>
-    </ion-content>
+      <ion-content>
+        <app-message-list
+          *ngIf="vm.user"
+          [messages]="vm.messages"
+          [activeUser]="vm.user"
+        ></app-message-list>
+      </ion-content>
 
-    <ion-footer>
-      <app-message-input
-        (send)="messageService.addMessage($event)"
-      ></app-message-input>
-    </ion-footer>
+      <ion-footer>
+        <app-message-input
+          (send)="messageService.addMessage($event)"
+        ></app-message-input>
+      </ion-footer>
+    </ng-container>
   `,
   styles: [
     `
@@ -58,25 +64,28 @@ import { AuthService } from '../shared/data-access/auth.service';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [HomeStore],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   @ViewChild(IonContent) ionContent!: IonContent;
 
-  protected messages$ = this.messageService
-    .getMessages()
-    .pipe(tap(() => setTimeout(() => this.ionContent?.scrollToBottom(200), 0)));
+  messageControl = new FormControl('');
 
-  protected messageControl = new FormControl('');
+  vm$ = combineLatest([
+    this.store.messages$,
+    this.authService.user$.pipe(startWith(null)),
+  ]).pipe(map(([messages, user]) => ({ messages, user })));
 
   constructor(
-    protected messageService: MessageService,
-    protected authService: AuthService,
-    private navCtrl: NavController
+    public store: HomeStore,
+    public messageService: MessageService,
+    public authService: AuthService
   ) {}
 
-  async logout() {
-    await this.authService.logout();
-    this.navCtrl.navigateRoot('/login');
+  ngOnInit() {
+    this.store.messages$.pipe(
+      tap(() => setTimeout(() => this.ionContent?.scrollToBottom(200), 0))
+    );
   }
 }
 

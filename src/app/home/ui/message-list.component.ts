@@ -59,8 +59,8 @@ import { Message } from '../../shared/interfaces/message';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageListComponent {
-  @Input() messages!: Message[] | null;
-  @Input() activeUser!: User | null;
+  @Input() messages!: Message[];
+  @Input() activeUser!: User;
 
   trackByFn(index: number, message: Message) {
     return message.created;

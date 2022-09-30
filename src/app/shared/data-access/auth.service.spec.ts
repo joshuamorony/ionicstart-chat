@@ -48,16 +48,17 @@ describe('AuthService', () => {
   });
 
   describe('logout()', () => {
-    it('should return result of signOut()', async () => {
+    it('should return result of signOut()', (done) => {
       const testResult = 'test';
 
       jest
         .spyOn(AngularFireAuth, 'signOut')
         .mockResolvedValue(testResult as any);
 
-      const result = await service.logout();
-
-      expect(result).toEqual(testResult);
+      service.logout().subscribe((result) => {
+        expect(result).toEqual(testResult);
+        done();
+      });
     });
   });
 
