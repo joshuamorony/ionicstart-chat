@@ -26,8 +26,9 @@ export type CreateStatus = 'pending' | 'creating' | 'success' | 'error';
     </ion-header>
     <ion-content>
       <app-create-form
+        *ngIf="createStatus$ | async as status"
         (create)="createAccount($event)"
-        [createStatus]="(createStatus$ | async)!"
+        [createStatus]="status"
       ></app-create-form>
     </ion-content>
   `,
