@@ -19,6 +19,9 @@ import { LoginFormComponentModule } from './ui/login-form.component';
             (login)="store.login($event)"
             [loginStatus]="vm.status"
           ></app-login-form>
+          <ion-button (click)="store.loginWithFacebook()">
+            Login with Facebook
+          </ion-button>
           <ion-modal
             [isOpen]="vm.createModalIsOpen"
             [presentingElement]="routerOutlet.nativeEl"

@@ -19,7 +19,7 @@ service cloud.firestore {
   }
 
   function isValidMessage(){
-    // email of incoming doc should match the authenticated user
+    // email of incoming doc should match the authenticated use
     return request.resource.data.author == request.auth.token.email;
   }
 

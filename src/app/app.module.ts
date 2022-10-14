@@ -17,6 +17,8 @@ import {
   connectFirestoreEmulator,
 } from '@angular/fire/firestore';
 
+import { Facebook } from '@awesome-cordova-plugins/facebook/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -47,7 +49,10 @@ import {
       return auth;
     }),
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Facebook,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
